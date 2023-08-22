@@ -29,7 +29,7 @@ module.exports = {
         arabic: ["CooperArabic", "sans-serif"],
       },
       transitionTimingFunction: {
-        "ease-out-cubic": "cubic-bezier(0.645,0.045,0.355,1)",
+        "cubic": "cubic-bezier(0.645,0.045,0.355,1)",
       },
     },
   },
