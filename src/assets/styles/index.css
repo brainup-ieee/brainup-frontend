@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "CooperArabic";
+  src: url("../fonts/CooperArabic.woff2") format("woff2");
+}
