@@ -1,12 +1,25 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+
+// router
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// assets
 import "./assets/styles/index.css";
+
+// pages
+import { HomePage } from "./pages/home/Index";
+import { Navbar } from "./components/Navbar";
 
 const App = () => {
   return (
-    <div className="relative w-full h-screen bg-secondary flex flex-col justify-center items-center gap-4 text-gray-200">
-      <h1 className="w-full text-center text-4xl font-medium">BrainUp</h1>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<h1>404</h1>} />
+      </Routes>
+    </Router>
   );
 };
 
