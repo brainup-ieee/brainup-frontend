@@ -3,10 +3,11 @@ import React, { useReducer, useEffect } from "react";
 import { Input } from "../../components/Input";
 import { ButtonFull } from "../../components/ButtonFull";
 
-const initialState = {
+const INITIALSTATE = {
   name: "",
   email: "",
   username: "",
+  continue: false,
   errors: {
     name: "",
     email: "",
@@ -49,39 +50,46 @@ const reducer = (state, action) => {
   }
 };
 
-export const SecondStep = ({ data, setData, onContinue }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export const SecondStep = ({ onContinue }) => {
+  const [state, dispatch] = useReducer(reducer, INITIALSTATE);
 
   useEffect(() => {
-    console.log(data);
+    const RegisterData = JSON.parse(localStorage.getItem("RegisterData"));
+    if (RegisterData) {
+      dispatch({
+        type: "SET_FIELD",
+        payload: { field: "name", value: RegisterData.name },
+      });
+      dispatch({
+        type: "SET_FIELD",
+        payload: { field: "email", value: RegisterData.email },
+      });
+      dispatch({
+        type: "SET_FIELD",
+        payload: { field: "username", value: RegisterData.username },
+      });
+    }
   }, []);
 
   const handleChange = (field) => (e) => {
     dispatch({ type: "SET_FIELD", payload: { field, value: e.target.value } });
+    localStorage.setItem(
+      "RegisterData",
+      JSON.stringify({ ...state, [field]: e.target.value })
+    );
   };
 
   const handleContinue = () => {
-    if (enableContinue(state)) {
-      console.log("Continue condition met");
-
-      const progress = {
-        ...data,
-        data: {
-          name: state.name,
-          email: state.email,
-          username: state.username,
-        },
-      };
-
-      console.log("Progress object:", progress);
-
-      setData(progress);
+    const RegisterData = JSON.parse(localStorage.getItem("RegisterData"));
+    if (RegisterData) {
       localStorage.setItem(
-        "userProgress",
-        JSON.stringify(progress),
-        onContinue()
+        "RegisterData",
+        JSON.stringify({ ...RegisterData, ...state })
       );
+    } else {
+      localStorage.setItem("RegisterData", JSON.stringify(state));
     }
+    onContinue();
   };
 
   return (
