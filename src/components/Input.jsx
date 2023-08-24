@@ -13,7 +13,7 @@ export const Input = ({ text, type, placeholder, value, change, error }) => {
           onChange={change}
         />
         <div
-          className={"px-3 text-primary text-sm " + (error ? "h-4" : "h-fit")}
+          className={"px-3 text-primary text-sm"}
         >
           {error}
         </div>

@@ -4,16 +4,13 @@ import { useState, useEffect } from "react";
 // components
 import { Link } from "react-router-dom";
 import { RegisterToggle } from "./FirstStep";
-import { Teacher } from "./Teacher";
-import { Input } from "../../components/Input";
-import { ButtonFull } from "../../components/ButtonFull";
 import { SecondStep } from "./SecondStep";
+import { ThirdStep } from "./ThirdStep";
 
 export const RegisterPage = () => {
   const [userProgress, setUserProgress] = useState({
     personToggle: 0,
     step: 1,
-    data: {},
   });
 
   useEffect(() => {
@@ -21,22 +18,22 @@ export const RegisterPage = () => {
     if (progress) {
       setUserProgress(JSON.parse(progress));
     }
-    console.log(userProgress);
-  }, []);
+  }, [setUserProgress]);
 
   const handleNextStep = () => {
     if (userProgress.step < 3) {
-      setUserProgress({ ...userProgress, step: userProgress.step + 1 });
+      setUserProgress((prev) => ({ ...prev, step: prev.step + 1 }));
       localStorage.setItem(
         "userProgress",
         JSON.stringify({ ...userProgress, step: userProgress.step + 1 })
       );
+      console.log("Next step");
     }
   };
 
   const teacherRegister = () => {
     if (userProgress.personToggle !== 1) {
-      setUserProgress({ ...userProgress, personToggle: 1 });
+      setUserProgress((prev) => ({ ...prev, personToggle: 1 }));
       localStorage.setItem(
         "userProgress",
         JSON.stringify({ ...userProgress, personToggle: 1 })
@@ -46,7 +43,7 @@ export const RegisterPage = () => {
 
   const studentRegister = () => {
     if (userProgress.personToggle !== 2) {
-      setUserProgress({ ...userProgress, personToggle: 2 });
+      setUserProgress((prev) => ({ ...prev, personToggle: 2 }));
       localStorage.setItem(
         "userProgress",
         JSON.stringify({ ...userProgress, personToggle: 2 })
@@ -85,7 +82,9 @@ export const RegisterPage = () => {
           />
         )}
 
-        {userProgress.step === 3 && <Teacher />}
+        {userProgress.step === 3 && (
+          <ThirdStep person={userProgress.personToggle} />
+        )}
       </div>
     </main>
   );
