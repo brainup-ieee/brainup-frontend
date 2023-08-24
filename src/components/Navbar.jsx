@@ -36,7 +36,7 @@ export const Navbar = () => {
           rainUp
         </span>
       </Link>
-      <ul className="flex gap-4 font-semibold">
+      <ul className="flex gap-8 font-semibold">
         <li className={"py-1 relative transition-colors duration-200 ease-cubic before:absolute before:left-0 before:bottom-0 before:h-1 before:bg-primary before:rounded before:transition-all before:duration-200 before:ease-cubic hover:text-primary " + (underline === PAGE[0]? "before:w-1/4" : "before:w-0")}><Link to="/">Home</Link></li>
         <li className={"py-1 relative transition-colors duration-200 ease-cubic before:absolute before:left-0 before:bottom-0 before:h-1 before:bg-primary before:rounded before:transition-all before:duration-200 before:ease-cubic hover:text-primary " + (underline === PAGE[1]? "before:w-1/4" : "before:w-0")}><Link to="/about">About</Link></li>
         <li className={"py-1 relative transition-colors duration-200 ease-cubic before:absolute before:left-0 before:bottom-0 before:h-1 before:bg-primary before:rounded before:transition-all before:duration-200 before:ease-cubic hover:text-primary " + (underline === PAGE[2]? "before:w-1/4" : "before:w-0")}><Link to="/pricing">Pricing</Link></li>
