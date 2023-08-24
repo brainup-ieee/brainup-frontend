@@ -15,7 +15,7 @@ import { RegisterPage } from "../pages/register/Index";
 
 const Layout = ({ children }) => {
   return (
-    <div className="xs:px-3 md:px-6 xl:px-10">
+    <div className="xs:px-4 sm:px-8 md:px-10 lg:px-14 xl:px-20">
       <Navbar />
       <Outlet />
     </div>
