@@ -1,7 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 
 import { Input } from "../../components/Input";
-import { ButtonFull } from "../../components/ButtonFull";
 import { RegisterBtn } from "./RegisterBtn";
 
 const INITIALSTATE = {
@@ -102,19 +101,21 @@ export const ThirdStep = ({ person }) => {
   useEffect(() => {
     const RegisterData = JSON.parse(localStorage.getItem("RegisterData"));
 
-    if (
-      RegisterData.phone &&
-      RegisterData.password &&
-      RegisterData.confirmPassword
-    ) {
+    if (RegisterData.phone) {
       dispatch({
         type: "SET_PHONE",
         payload: { field: "phone", value: RegisterData.phone },
       });
+    }
+
+    if (RegisterData.password) {
       dispatch({
         type: "SET_PASS",
         payload: { field: "password", value: RegisterData.password },
       });
+    }
+
+    if (RegisterData.confirmPassword) {
       dispatch({
         type: "SET_CONFIRM",
         payload: {

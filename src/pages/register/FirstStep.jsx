@@ -80,11 +80,12 @@ export const RegisterToggle = ({
         />
       </div>
       <div>
-        <Link to="/signin">
-          <p className="text-center text-primary font-nunito font-bold text-lg">
-            Already have an account? Sign in
-          </p>
-        </Link>
+        <p className="text-center text-gray-500 font-nunito select-none">
+          Already have an account?{" "}
+          <Link to="/signin" className="text-primary font-bold">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
