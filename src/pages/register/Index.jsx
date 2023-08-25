@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 // components
 import { Link } from "react-router-dom";
+import { FormContainer } from "../../components/FormContainer";
 import { RegisterToggle } from "./FirstStep";
 import { SecondStep } from "./SecondStep";
 import { ThirdStep } from "./ThirdStep";
@@ -56,36 +57,34 @@ export const RegisterPage = () => {
   };
 
   return (
-    <main className="w-full min-h-screen bg-secondary flex justify-center items-center">
-      <div className="m-4 p-8 bg-white rounded-xl max-w-sm">
-        <h2 className="mb-8">
-          <Link
-            to="/"
-            className="text-primary font-nunito font-extrabold text-xl"
-          >
-            BrainUp
-          </Link>
-        </h2>
-        {userProgress.step === 1 && (
-          <RegisterToggle
-            personToggle={userProgress.personToggle}
-            teacherRegister={teacherRegister}
-            studentRegister={studentRegister}
-            onContinue={onContinue}
-          />
-        )}
-        {userProgress.step === 2 && (
-          <SecondStep
-            onContinue={onContinue}
-            data={userProgress}
-            setData={setUserProgress}
-          />
-        )}
+    <FormContainer>
+      <h2 className="mb-8">
+        <Link
+          to="/"
+          className="text-primary font-nunito font-extrabold text-xl"
+        >
+          BrainUp
+        </Link>
+      </h2>
+      {userProgress.step === 1 && (
+        <RegisterToggle
+          personToggle={userProgress.personToggle}
+          teacherRegister={teacherRegister}
+          studentRegister={studentRegister}
+          onContinue={onContinue}
+        />
+      )}
+      {userProgress.step === 2 && (
+        <SecondStep
+          onContinue={onContinue}
+          data={userProgress}
+          setData={setUserProgress}
+        />
+      )}
 
-        {userProgress.step === 3 && (
-          <ThirdStep person={userProgress.personToggle} />
-        )}
-      </div>
-    </main>
+      {userProgress.step === 3 && (
+        <ThirdStep person={userProgress.personToggle} />
+      )}
+    </FormContainer>
   );
 };
