@@ -11,14 +11,13 @@ const INITIALSTATE = {
   continue: false,
   errors: {
     phone: "",
-    phone: "",
+    pasword: "",
     confirmPassword: "",
   },
 };
 
 const enableContinue = (state) => {
   const { phone, password, confirmPassword } = state;
-  const { errors } = state;
 
   return (
     validatePhone(phone) &&
@@ -155,7 +154,7 @@ export const ThirdStep = ({ person }) => {
   return (
     <div className="flex flex-col items-center gap-4">
       <h2 className="text-2xl font-nunito font-bold text-center">
-        Great, now let us know more about you.
+        One last step
       </h2>
       <div className="w-full">
         <Input
