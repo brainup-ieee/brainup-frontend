@@ -61,7 +61,7 @@ export const SigninPage = () => {
       if (userLogin.email === "" && userLogin.password === "") {
         return;
       }
-      
+
       dispatch({
         type: "SET_FIELD",
         payload: { field: "email", value: userLogin.email },
@@ -111,6 +111,14 @@ export const SigninPage = () => {
               change={handleChange("password")}
               value={state.password}
             />
+            <div>
+              <Link
+                to="/forgot-password"
+                className="text-primary font-nunito"
+              >
+                Forgot Password ?
+              </Link>
+            </div>
           </div>
           <SigninBtn enabled={state.continue} />
           <div>
