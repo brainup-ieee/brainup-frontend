@@ -16,6 +16,7 @@ import { ContactPage } from "../pages/contact/Index";
 import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
 import { SigninPage } from "../pages/signin/Index";
+import { VarificationPage } from "../pages/varify";
 
 const Layout = ({ children }) => {
   return (
@@ -38,6 +39,8 @@ export const RouterComponent = () => {
         </Route>
         <Route path="register" element={<RegisterPage />} />
         <Route path="signin" element={<SigninPage />} />
+        <Route path="forgot-password" element={<VarificationPage />} />
+        <Route path="user-confirm" element={<VarificationPage />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </Router>
