@@ -11,7 +11,11 @@ import { Navbar } from "../components/Navbar";
 
 // pages
 import { HomePage } from "../pages/home/Index";
+import { AboutPage } from "../pages/about/Index";
+import { ContactPage } from "../pages/contact/Index";
+import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
+import { SigninPage } from "../pages/signin/Index";
 
 const Layout = ({ children }) => {
   return (
@@ -28,8 +32,12 @@ export const RouterComponent = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="pricing" element={<PricingPage />} />
         </Route>
         <Route path="register" element={<RegisterPage />} />
+        <Route path="signin" element={<SigninPage />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </Router>
