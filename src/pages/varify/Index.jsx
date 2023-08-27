@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { FormContainer } from "../../components/FormContainer";
 import { ResetPasswordPage } from "./password/Index";
+import { ConfrimEmailPage } from "./confirm/Index";
 
 import logo from "../../assets/logos/Logo.png";
 
@@ -16,7 +17,6 @@ export const VarificationPage = () => {
   // hooks
   const location = useLocation();
   const [pageFunction, setPageFunction] = useState(null);
-  const [enableContinue, setEnableContinue] = useState(false);
   const [state, setState] = useState(INITIALSTATE);
 
   const pathname = location.pathname.slice(1);
@@ -53,6 +53,7 @@ export const VarificationPage = () => {
         </Link>
       </h2>
       {pageFunction === 1 && <ResetPasswordPage />}
+      {pageFunction === 2 && <ConfrimEmailPage />}
     </FormContainer>
   );
 };
