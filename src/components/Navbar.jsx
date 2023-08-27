@@ -13,6 +13,7 @@ const PAGE = [ 1, 2, 3, 4];
 export const Navbar = () => {
   const currentURL = useLocation().pathname.toLowerCase();
   const [underline, setUnderline] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(false);
 
   useEffect(() => {
     if (currentURL === "/") {
@@ -28,10 +29,19 @@ export const Navbar = () => {
     }
   }, [currentURL]);
 
+  const handleMenu = () => {
+    setActiveMenu(!activeMenu);
+  };
+
   return (
     <nav className="flex justify-between items-center pt-4 pb-2 font-nunito">
-      <Link to="/" className="flex h-10">
-        <img src={logo} alt="BrainUp" />
+      <Link to="/" className="flex items-center gap-4 h-10">
+        <div className="flex flex-col items-center gap-1 lg:hidden" onClick={handleMenu}>
+          <span className={"w-6 h-1 bg-primary rounded-xl transition-all duration-200 ease-cubic " + (activeMenu? " rotate-45 translate-y-2" : "")}></span>
+          <span className={"w-6 h-1 bg-primary rounded-xl transition-all duration-200 ease-cubic " + (activeMenu? "w-0" : "")}></span>
+          <span className={"w-6 h-1 bg-primary rounded-xl transition-all duration-200 ease-cubic " + (activeMenu? " -rotate-45 -translate-y-2" : "")}></span>
+        </div>
+        <img src={logo} alt="BrainUp" className="h-full"/>
       </Link>
       <ul className="flex gap-8 font-semibold">
         <li className={"py-1 relative transition-colors duration-200 ease-cubic before:absolute before:left-0 before:bottom-0 before:h-1 before:bg-primary before:rounded before:transition-all before:duration-200 before:ease-cubic hover:text-primary " + (underline === PAGE[0]? "before:w-1/4" : "before:w-0")}><Link to="/">Home</Link></li>
