@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FirstStep } from "./FirstStep";
 import { SecondStep } from "./SecondStep";
+import { ThirdStep } from "./ThirdStep";
 
 export const ResetPasswordPage = () => {
   const [steps, setSteps] = useState(1);
@@ -27,6 +28,7 @@ export const ResetPasswordPage = () => {
     <>
       { steps === 1 && <FirstStep onContinue={handleContinue} />} 
       { steps === 2 && <SecondStep onContinue={handleContinue} setSteps={setSteps}/> }
+      { steps === 3 && <ThirdStep onContinue={handleContinue} /> }
     </>
   );
 };

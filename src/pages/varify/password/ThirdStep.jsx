@@ -4,6 +4,7 @@ import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
 
 const validatePassword = (password) => {
+  console.log(password);
   if (password.trim() === "") {
     return "Password is required";
   }
@@ -16,61 +17,91 @@ const validatePassword = (password) => {
   return "";
 };
 
+const validateContinue = (password, confirmPassword) => {
+  return validatePassword(password) === "" && confirmPassword === password;
+};
+
 export const ThirdStep = ({ onContinue }) => {
   const [state, setState] = useState({ value: "", error: "" });
+  const [confirmPassword, setConfirmPassword] = useState({
+    value: "",
+    error: "",
+  });
   const [enableContinue, setEnableContinue] = useState(false);
 
   useEffect(() => {
-    const ResetPage = localStorage.getItem("ResetPage");
-    const { password } = JSON.parse(ResetPage);
-    if (ResetPage) {
-      const { email } = JSON.parse(ResetPage);
-      setState((prevState) => ({
-        ...prevState,
-        value: email,
-        error: email === "" ? "" : validateEmail(email),
-      }));
-
-      if (validateEmail(email) === "") {
-        setEnableContinue(true);
-      }
-    } else {
-      localStorage.setItem("ResetPage", JSON.stringify({ step: 1, email: "" }));
+    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
+    const { password } = ResetPage;
+    if (!password) {
+      localStorage.setItem(
+        "ResetPage",
+        JSON.stringify({
+          ...ResetPage,
+          password: "",
+        })
+      );
     }
   }, []);
 
-  const handleChange = (e) => {
+  const handlePasswordChange = (e) => {
     const value = e.target.value;
 
     setState((prevState) => ({
       ...prevState,
       value: value,
-      error: validateEmail(value),
+      error: validatePassword(value),
     }));
 
+    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
     localStorage.setItem(
       "ResetPage",
-      JSON.stringify({ step: 1, email: value })
+      JSON.stringify({
+        ...ResetPage,
+        password: value,
+      })
     );
+    setEnableContinue(validateContinue(value, confirmPassword.value));
+  };
 
-    if (value.trim() !== "" && validateEmail(value) === "") {
-      setEnableContinue(true);
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    if (value !== state.value) {
+      setConfirmPassword((prevState) => ({
+        ...prevState,
+        value: value,
+        error: "Password does not match",
+      }));
     } else {
-      setEnableContinue(false);
+      setConfirmPassword((prevState) => ({
+        ...prevState,
+        value: value,
+        error: "",
+      }));
     }
+    setEnableContinue(validateContinue(state.value, value));
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-nunito font-bold">Reset your password</h2>
+      <h2 className="text-2xl font-nunito font-bold">
+        Enter your new password
+      </h2>
       <div className="w-full">
         <Input
-          text="Email"
-          type="text"
-          placeholder="Enter your email"
+          text="Password"
+          type="password"
+          placeholder="Enter new Password"
           error={state.error}
-          change={handleChange}
+          change={handlePasswordChange}
           value={state.value}
+        />
+        <Input
+          text="Confirm Password"
+          type="password"
+          placeholder="Confirm new Password"
+          error={confirmPassword.error}
+          change={handleConfirmPasswordChange}
+          value={confirmPassword.value}
         />
       </div>
       <div>
