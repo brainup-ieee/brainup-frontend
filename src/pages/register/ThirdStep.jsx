@@ -1,5 +1,5 @@
-import React, { useReducer, useEffect } from "react";
-
+import React, { useReducer, useEffect, useContext } from "react";
+import { RegisterContext } from "../../contexts/register";
 import { Input } from "../../components/Input";
 import { RegisterBtn } from "./RegisterBtn";
 
@@ -97,40 +97,41 @@ const reducer = (state, action) => {
 
 export const ThirdStep = ({ person }) => {
   const [state, dispatch] = useReducer(reducer, INITIALSTATE);
+  const { register, setRegister } = useContext(RegisterContext);
 
   useEffect(() => {
-    const RegisterData = JSON.parse(localStorage.getItem("RegisterData"));
-
-    if (RegisterData.phone) {
+    const RegisterData = JSON.parse(localStorage.getItem("userRegisterData"));
+    const { phone, password, confirmPassword } = RegisterData;
+    if (phone) {
       dispatch({
         type: "SET_PHONE",
-        payload: { field: "phone", value: RegisterData.phone },
+        payload: { field: "phone", value: phone },
       });
     }
 
-    if (RegisterData.password) {
+    if (password) {
       dispatch({
         type: "SET_PASS",
-        payload: { field: "password", value: RegisterData.password },
+        payload: { field: "password", value: password },
       });
     }
 
-    if (RegisterData.confirmPassword) {
+    if (confirmPassword) {
       dispatch({
         type: "SET_CONFIRM",
         payload: {
           field: "confirmPassword",
-          value: RegisterData.confirmPassword,
+          value: confirmPassword,
         },
       });
     }
   }, []);
 
   const handleUserData = (field, value) => {
-    const temp = JSON.parse(localStorage.getItem("RegisterData"));
+    setRegister((prev) => ({ ...prev, [field]: value }));
     localStorage.setItem(
-      "RegisterData",
-      JSON.stringify({ ...temp, [field]: value })
+      "userRegisterData",
+      JSON.stringify({ ...register, [field]: value })
     );
   };
 
@@ -159,7 +160,9 @@ export const ThirdStep = ({ person }) => {
       </h2>
       <div className="w-full">
         <Input
-          text={person === 1 ? "Phone Number" : "Parent's Phone Number"}
+          text={
+            register.user_type === 1 ? "Phone Number" : "Parent's Phone Number"
+          }
           type="text"
           placeholder="Enter your phone number"
           error={state.errors.phone}

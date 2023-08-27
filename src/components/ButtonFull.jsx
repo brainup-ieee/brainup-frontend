@@ -1,4 +1,6 @@
-export const ButtonFull = ({ text, enabled, clickHandler }) => {
+import { Loader } from "./Loader";
+
+export const ButtonFull = ({ text, enabled, clickHandler, isLoading }) => {
   return (
     <button
       disabled={!enabled}
@@ -8,7 +10,8 @@ export const ButtonFull = ({ text, enabled, clickHandler }) => {
       }
       onClick={clickHandler}
     >
-      {text}
+      {isLoading && <Loader />}
+      <span>{text}</span>
     </button>
   );
 };

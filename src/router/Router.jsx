@@ -9,6 +9,9 @@ import {
 // components
 import { Navbar } from "../components/Navbar";
 
+// context provider
+import { RegisterProvider } from "../contexts/register";
+
 // pages
 import { HomePage } from "../pages/home/Index";
 import { AboutPage } from "../pages/about/Index";
@@ -37,7 +40,14 @@ export const RouterComponent = () => {
           <Route path="contact" element={<ContactPage />} />
           <Route path="pricing" element={<PricingPage />} />
         </Route>
-        <Route path="register" element={<RegisterPage />} />
+        <Route
+          path="register"
+          element={
+            <RegisterProvider>
+              <RegisterPage />
+            </RegisterProvider>
+          }
+        />
         <Route path="signin" element={<SigninPage />} />
         <Route path="forgot-password" element={<VarificationPage />} />
         <Route path="user-confirm" element={<VarificationPage />} />

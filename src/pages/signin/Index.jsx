@@ -88,9 +88,7 @@ export const SigninPage = () => {
   return (
     <FormContainer>
       <h2 className="mb-8">
-        <Link
-          to="/"
-        >
+        <Link to="/">
           <img src={logo} alt="logo" className="h-10" />
         </Link>
       </h2>
@@ -119,7 +117,13 @@ export const SigninPage = () => {
             </Link>
           </div>
         </div>
-        <SigninBtn enabled={state.continue} />
+        <SigninBtn
+          enabled={state.continue}
+          data={{
+            email: state.email,
+            password: state.password,
+          }}
+        />
         <div>
           <p className="text-center text-gray-500 font-nunito select-none">
             Doesn't have an Account ?{" "}

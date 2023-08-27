@@ -1,5 +1,8 @@
 // hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+// contexts
+import { RegisterContext } from "../../contexts/register";
 
 // components
 import { Link } from "react-router-dom";
@@ -12,56 +15,58 @@ import { ThirdStep } from "./ThirdStep";
 import logo from "../../assets/logos/Logo.png";
 
 export const RegisterPage = () => {
+  const { register, setRegister } = useContext(RegisterContext);
   const [userProgress, setUserProgress] = useState({
     personToggle: 0,
     step: 1,
   });
 
   useEffect(() => {
-    const progress = localStorage.getItem("userProgress");
-    if (progress) {
-      setUserProgress(JSON.parse(progress));
+    const userRegisterData = localStorage.getItem("userRegisterData");
+
+    if (userRegisterData) {
+      setRegister(JSON.parse(userRegisterData));
+    } else {
+      localStorage.setItem("userRegisterData", JSON.stringify({ ...register }));
     }
   }, [setUserProgress]);
 
   const handleNextStep = () => {
     if (userProgress.step < 3) {
-      setUserProgress((prev) => ({ ...prev, step: prev.step + 1 }));
+      setRegister((prev) => ({ ...prev, step: prev.step + 1 }));
       localStorage.setItem(
-        "userProgress",
-        JSON.stringify({ ...userProgress, step: userProgress.step + 1 })
+        "userRegisterData",
+        JSON.stringify({ ...register, step: register.step + 1 })
       );
     }
   };
 
   const handlePrevStep = () => {
-    console.log("onPrev");
     if (userProgress.step >= 1) {
-      setUserProgress((prev) => ({ ...prev, step: prev.step - 1 }));
+      setRegister((prev) => ({ ...prev, step: prev.step - 1 }));
       localStorage.setItem(
-        "userProgress",
-        JSON.stringify({ ...userProgress, step: userProgress.step - 1 })
+        "userRegisterData",
+        JSON.stringify({ ...register, step: register.step - 1 })
       );
-      console.log("onPrev");
     }
   };
 
   const teacherRegister = () => {
     if (userProgress.personToggle !== 1) {
-      setUserProgress((prev) => ({ ...prev, personToggle: 1 }));
+      setRegister((prev) => ({ ...prev, user_type: 1 }));
       localStorage.setItem(
-        "userProgress",
-        JSON.stringify({ ...userProgress, personToggle: 1 })
+        "userRegisterData",
+        JSON.stringify({ ...register, user_type: 1 })
       );
     }
   };
 
   const studentRegister = () => {
     if (userProgress.personToggle !== 2) {
-      setUserProgress((prev) => ({ ...prev, personToggle: 2 }));
+      setRegister((prev) => ({ ...prev, user_type: 2 }));
       localStorage.setItem(
-        "userProgress",
-        JSON.stringify({ ...userProgress, personToggle: 2 })
+        "userRegisterData",
+        JSON.stringify({ ...register, user_type: 2 })
       );
     }
   };
@@ -73,17 +78,17 @@ export const RegisterPage = () => {
           <img src={logo} alt="logo" className="h-10" />
         </Link>
       </h2>
-      {userProgress.step === 1 && (
+      {register.step === 1 && (
         <RegisterToggle
-          personToggle={userProgress.personToggle}
+          personToggle={register.user_type}
           teacherRegister={teacherRegister}
           studentRegister={studentRegister}
           onContinue={handleNextStep}
         />
       )}
-      {userProgress.step === 2 && (
+      {register.step === 2 && (
         <SecondStep
-          person={userProgress.personToggle}
+          person={register.user_type}
           onContinue={handleNextStep}
           data={userProgress}
           setData={setUserProgress}
@@ -91,9 +96,7 @@ export const RegisterPage = () => {
         />
       )}
 
-      {userProgress.step === 3 && (
-        <ThirdStep person={userProgress.personToggle} />
-      )}
+      {register.step === 3 && <ThirdStep person={register.user_type} />}
     </FormContainer>
   );
 };
