@@ -8,6 +8,9 @@ import { RegisterToggle } from "./FirstStep";
 import { SecondStep } from "./SecondStep";
 import { ThirdStep } from "./ThirdStep";
 
+// assets
+import logo from "../../assets/logos/Logo.png";
+
 export const RegisterPage = () => {
   const [userProgress, setUserProgress] = useState({
     personToggle: 0,
@@ -28,7 +31,18 @@ export const RegisterPage = () => {
         "userProgress",
         JSON.stringify({ ...userProgress, step: userProgress.step + 1 })
       );
-      console.log("Next step");
+    }
+  };
+
+  const handlePrevStep = () => {
+    console.log("onPrev");
+    if (userProgress.step >= 1) {
+      setUserProgress((prev) => ({ ...prev, step: prev.step - 1 }));
+      localStorage.setItem(
+        "userProgress",
+        JSON.stringify({ ...userProgress, step: userProgress.step - 1 })
+      );
+      console.log("onPrev");
     }
   };
 
@@ -52,18 +66,11 @@ export const RegisterPage = () => {
     }
   };
 
-  const onContinue = () => {
-    handleNextStep();
-  };
-
   return (
     <FormContainer>
       <h2 className="mb-8">
-        <Link
-          to="/"
-          className="text-primary font-nunito font-extrabold text-xl"
-        >
-          BrainUp
+        <Link to="/">
+          <img src={logo} alt="logo" className="h-10" />
         </Link>
       </h2>
       {userProgress.step === 1 && (
@@ -71,14 +78,16 @@ export const RegisterPage = () => {
           personToggle={userProgress.personToggle}
           teacherRegister={teacherRegister}
           studentRegister={studentRegister}
-          onContinue={onContinue}
+          onContinue={handleNextStep}
         />
       )}
       {userProgress.step === 2 && (
         <SecondStep
-          onContinue={onContinue}
+          person={userProgress.personToggle}
+          onContinue={handleNextStep}
           data={userProgress}
           setData={setUserProgress}
+          onPrev={handlePrevStep}
         />
       )}
 

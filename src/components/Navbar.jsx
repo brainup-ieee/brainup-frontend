@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 // assets
-import logo from "../assets/logos/logo_temp.png";
+import logo from "../assets/logos/Logo.png";
 import { Button } from "./Button";
 
 const PAGE = [ 1, 2, 3, 4];
@@ -30,11 +30,8 @@ export const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center pt-4 pb-2 font-nunito">
-      <Link to="/" className="flex h-8">
+      <Link to="/" className="flex h-10">
         <img src={logo} alt="BrainUp" />
-        <span className="text-2xl font-bold text-primary translate-y-1">
-          rainUp
-        </span>
       </Link>
       <ul className="flex gap-8 font-semibold">
         <li className={"py-1 relative transition-colors duration-200 ease-cubic before:absolute before:left-0 before:bottom-0 before:h-1 before:bg-primary before:rounded before:transition-all before:duration-200 before:ease-cubic hover:text-primary " + (underline === PAGE[0]? "before:w-1/4" : "before:w-0")}><Link to="/">Home</Link></li>

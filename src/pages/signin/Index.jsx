@@ -7,6 +7,9 @@ import { FormContainer } from "../../components/FormContainer";
 import { Input } from "../../components/Input";
 import { SigninBtn } from "./SigninBtn";
 
+// assets
+import logo from "../../assets/logos/Logo.png";
+
 const INITIALSTATE = {
   email: "",
   password: "",
@@ -87,9 +90,8 @@ export const SigninPage = () => {
       <h2 className="mb-8">
         <Link
           to="/"
-          className="text-primary font-nunito font-extrabold text-xl"
         >
-          BrainUp
+          <img src={logo} alt="logo" className="h-10" />
         </Link>
       </h2>
       <div className="flex flex-col gap-4">

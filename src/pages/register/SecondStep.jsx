@@ -50,7 +50,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const SecondStep = ({ onContinue }) => {
+export const SecondStep = ({ person, onContinue, onPrev }) => {
   const [state, dispatch] = useReducer(reducer, INITIALSTATE);
 
   useEffect(() => {
@@ -129,6 +129,14 @@ export const SecondStep = ({ onContinue }) => {
           enabled={state.continue}
           clickHandler={handleContinue}
         />
+      </div>
+      <div>
+        <button
+          className="text-center text-gray-600 font-nunito select-none"
+          onClick={onPrev}
+        >
+          not a {person === 1 ? "teacher" : "student"}?
+        </button>
       </div>
     </div>
   );

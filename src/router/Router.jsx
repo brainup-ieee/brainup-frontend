@@ -16,7 +16,7 @@ import { ContactPage } from "../pages/contact/Index";
 import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
 import { SigninPage } from "../pages/signin/Index";
-import { VarificationPage } from "../pages/varify";
+import { VarificationPage } from "../pages/varify/Index";
 
 const Layout = ({ children }) => {
   return (
