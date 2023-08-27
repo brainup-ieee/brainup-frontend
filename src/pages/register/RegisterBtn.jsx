@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ButtonFull } from "../../components/ButtonFull";
 
 const useRegister = (data) => {
-  return useMutation("register", () =>
+  return useMutation(["register"], () =>
     axios.post("https://brainup-api.mazenamir.com/api/auth/register", {
       username: data.username,
       name: data.name,

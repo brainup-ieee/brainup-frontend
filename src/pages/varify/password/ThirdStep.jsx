@@ -1,7 +1,19 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { useMutation } from "react-query";
+import { PasswordContext } from "../../../contexts/resetPassword";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
+
+const useResetPassword = (password, token) => {
+  return useMutation(["forgot-password", 3], () =>
+    axios.post("https://brainup-api.mazenamir.com/api/auth/reset-password", {
+      password,
+      token,
+    })
+  );
+};
 
 const validatePassword = (password) => {
   console.log(password);
@@ -22,12 +34,16 @@ const validateContinue = (password, confirmPassword) => {
 };
 
 export const ThirdStep = ({ onContinue }) => {
+  const navigate = useNavigate();
   const [state, setState] = useState({ value: "", error: "" });
   const [confirmPassword, setConfirmPassword] = useState({
     value: "",
     error: "",
   });
   const [enableContinue, setEnableContinue] = useState(false);
+  const userToken = localStorage.getItem("userToken");
+  const { password, setPassword } = useContext(PasswordContext);
+  const resetPasswordMutation = useResetPassword(password.password, userToken);
 
   useEffect(() => {
     const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
@@ -51,6 +67,8 @@ export const ThirdStep = ({ onContinue }) => {
       value: value,
       error: validatePassword(value),
     }));
+
+    setPassword((prev) => ({ ...prev, password: value }));
 
     const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
     localStorage.setItem(
@@ -81,6 +99,16 @@ export const ThirdStep = ({ onContinue }) => {
     setEnableContinue(validateContinue(state.value, value));
   };
 
+  const handleNewPassword = async () => {
+    const { data } = await resetPasswordMutation.mutateAsync();
+    if (data.status === "failed") {
+      alert(data.message);
+    } else if (data.status === "success") {
+      console.log(data);
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-nunito font-bold">
@@ -106,9 +134,10 @@ export const ThirdStep = ({ onContinue }) => {
       </div>
       <div>
         <ButtonFull
-          text="Continue"
+          text="Save Password"
           enabled={enableContinue}
-          clickHandler={onContinue}
+          clickHandler={handleNewPassword}
+          isLoading={resetPasswordMutation.isLoading}
         />
       </div>
     </div>

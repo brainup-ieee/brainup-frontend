@@ -1,7 +1,17 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { useMutation } from "react-query";
+import { PasswordContext } from "../../../contexts/resetPassword";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
+
+const useConfirmEmail = (email) => {
+  return useMutation(["forgot-password", 1], () =>
+    axios.post("https://brainup-api.mazenamir.com/api/auth/forgot-password", {
+      email,
+    })
+  );
+};
 
 const validateEmail = (email) => {
   if (email.trim() === "") {
@@ -17,6 +27,8 @@ const validateEmail = (email) => {
 export const FirstStep = ({ onContinue }) => {
   const [state, setState] = useState({ value: "", error: "" });
   const [enableContinue, setEnableContinue] = useState(false);
+  const { password, setPassword } = useContext(PasswordContext);
+  const confirmEmailMutation = useConfirmEmail(password.email);
 
   useEffect(() => {
     const ResetPage = localStorage.getItem("ResetPage");
@@ -45,9 +57,11 @@ export const FirstStep = ({ onContinue }) => {
       error: validateEmail(value),
     }));
 
+    setPassword((prev) => ({ ...prev, email: value }));
+
     localStorage.setItem(
       "ResetPage",
-      JSON.stringify({ step: 1, email: value })
+      JSON.stringify({ ...password, email: value })
     );
 
     if (value.trim() !== "" && validateEmail(value) === "") {
@@ -55,6 +69,17 @@ export const FirstStep = ({ onContinue }) => {
     } else {
       setEnableContinue(false);
     }
+  };
+
+  const handleContinue = async () => {
+    // const { data } = await confirmEmailMutation.mutateAsync();
+    // if (data.status === "failed") {
+    //   alert(data.message);
+    // } else if (data.status === "success") {
+    //   console.log(data);
+    //   onContinue();
+    // }
+    onContinue();
   };
 
   return (
@@ -74,7 +99,8 @@ export const FirstStep = ({ onContinue }) => {
         <ButtonFull
           text="Continue"
           enabled={enableContinue}
-          clickHandler={onContinue}
+          clickHandler={handleContinue}
+          isLoading={confirmEmailMutation.isLoading}
         />
       </div>
     </div>

@@ -11,6 +11,7 @@ import { Navbar } from "../components/Navbar";
 
 // context provider
 import { RegisterProvider } from "../contexts/register";
+import { PasswordProvider } from "../contexts/resetPassword";
 
 // pages
 import { HomePage } from "../pages/home/Index";
@@ -49,7 +50,14 @@ export const RouterComponent = () => {
           }
         />
         <Route path="signin" element={<SigninPage />} />
-        <Route path="forgot-password" element={<VarificationPage />} />
+        <Route
+          path="forgot-password"
+          element={
+            <PasswordProvider>
+              <VarificationPage />
+            </PasswordProvider>
+          }
+        />
         <Route path="user-confirm" element={<VarificationPage />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>

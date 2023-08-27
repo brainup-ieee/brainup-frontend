@@ -1,7 +1,20 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { useMutation } from "react-query";
+import { PasswordContext } from "../../../contexts/resetPassword";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
+
+const useCodeConfirm = (code) => {
+  return useMutation(["forgot-password", 2], () =>
+    axios.post(
+      "https://brainup-api.mazenamir.com/api/auth/reset-password/verify-code",
+      {
+        code,
+      }
+    )
+  );
+};
 
 const validateCode = (code) => {
   if (code.trim() === "") {
@@ -16,30 +29,8 @@ const validateCode = (code) => {
 export const SecondStep = ({ onContinue, setSteps }) => {
   const [state, setState] = useState({ value: "", error: "" });
   const [enableContinue, setEnableContinue] = useState(false);
-
-  useEffect(() => {
-    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
-    const { code } = ResetPage;
-    if (code) {
-      setState((prevState) => ({
-        ...prevState,
-        value: code,
-        error: code === "" ? "" : validateCode(code),
-      }));
-
-      if (validateCode(code) === "") {
-        setEnableContinue(true);
-      }
-    } else {
-      localStorage.setItem(
-        "ResetPage",
-        JSON.stringify({
-          ...ResetPage,
-          code: "",
-        })
-      );
-    }
-  }, []);
+  const { password, setPassword } = useContext(PasswordContext);
+  const confirmCodeMutation = useCodeConfirm(password.code);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -49,13 +40,11 @@ export const SecondStep = ({ onContinue, setSteps }) => {
       error: validateCode(value),
     }));
 
-    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
+    setPassword((prev) => ({ ...prev, code: value }));
+
     localStorage.setItem(
       "ResetPage",
-      JSON.stringify({
-        ...ResetPage,
-        code: value,
-      })
+      JSON.stringify({ ...password, code: value })
     );
 
     if (validateCode(value) === "") {
@@ -63,6 +52,17 @@ export const SecondStep = ({ onContinue, setSteps }) => {
     } else {
       setEnableContinue(false);
     }
+  };
+
+  const handleContinue = async () => {
+    const { data } = await confirmCodeMutation.mutateAsync();
+    if (data.status === "failed") {
+      alert(data.message);
+    } else if (data.status === "success") {
+      localStorage.setItem("userToken", data.token);
+      onContinue();
+    }
+    onContinue();
   };
 
   const handleClick = () => {
@@ -76,6 +76,7 @@ export const SecondStep = ({ onContinue, setSteps }) => {
       })
     );
     setSteps(1);
+    setPassword((prev) => ({ ...prev, step: 1, code: "" }));
   };
 
   return (
@@ -101,7 +102,8 @@ export const SecondStep = ({ onContinue, setSteps }) => {
         <ButtonFull
           text="Continue"
           enabled={enableContinue}
-          clickHandler={onContinue}
+          clickHandler={handleContinue}
+          isLoading={confirmCodeMutation.isLoading}
         />
       </div>
     </div>
