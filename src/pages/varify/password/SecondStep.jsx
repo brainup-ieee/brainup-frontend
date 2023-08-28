@@ -26,11 +26,24 @@ const validateCode = (code) => {
   return "";
 };
 
-export const SecondStep = ({ onContinue, setSteps }) => {
+export const SecondStep = ({ onContinue }) => {
   const [state, setState] = useState({ value: "", error: "" });
   const [enableContinue, setEnableContinue] = useState(false);
   const { password, setPassword } = useContext(PasswordContext);
   const confirmCodeMutation = useCodeConfirm(password.code);
+
+  useEffect(() => {
+    const ResetPage = localStorage.getItem("ResetPage");
+    if (ResetPage) {
+      const data = JSON.parse(ResetPage);
+      setPassword({ ...data, step: 2 });
+    } else {
+      localStorage.setItem(
+        "ResetPage",
+        JSON.stringify({ ...password, step: 1 })
+      );
+    }
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -59,24 +72,19 @@ export const SecondStep = ({ onContinue, setSteps }) => {
     if (data.status === "failed") {
       alert(data.message);
     } else if (data.status === "success") {
+      alert(data.message);
+      setPassword((prev) => ({ ...prev, token: data.token }));
       localStorage.setItem("userToken", data.token);
       onContinue();
     }
-    onContinue();
   };
 
   const handleClick = () => {
-    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
+    setPassword((prev) => ({ ...prev, step: 1, code: "" }));
     localStorage.setItem(
       "ResetPage",
-      JSON.stringify({
-        ...ResetPage,
-        step: 1,
-        code: "",
-      })
+      JSON.stringify({ ...password, step: 1, code: "" })
     );
-    setSteps(1);
-    setPassword((prev) => ({ ...prev, step: 1, code: "" }));
   };
 
   return (

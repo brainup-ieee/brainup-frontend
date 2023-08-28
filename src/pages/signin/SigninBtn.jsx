@@ -33,7 +33,7 @@ export const SigninBtn = ({ enabled, data }) => {
     <div className="w-full">
       <ButtonFull
         text={SigninMutation.isLoading ? "...Loading" : "Sign in"}
-        enabled={enabled}
+        enabled={enabled && !SigninMutation.isLoading}
         clickHandler={SigninHandler}
         isLoading={SigninMutation.isLoading}
       />

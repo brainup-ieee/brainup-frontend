@@ -44,7 +44,7 @@ export const FirstStep = ({ onContinue }) => {
         setEnableContinue(true);
       }
     } else {
-      localStorage.setItem("ResetPage", JSON.stringify({ step: 1, email: "" }));
+      localStorage.setItem("ResetPage", JSON.stringify(password));
     }
   }, []);
 
@@ -72,14 +72,12 @@ export const FirstStep = ({ onContinue }) => {
   };
 
   const handleContinue = async () => {
-    // const { data } = await confirmEmailMutation.mutateAsync();
-    // if (data.status === "failed") {
-    //   alert(data.message);
-    // } else if (data.status === "success") {
-    //   console.log(data);
-    //   onContinue();
-    // }
-    onContinue();
+    const { data } = await confirmEmailMutation.mutateAsync();
+    if (data.status === "failed") {
+      alert(data.message);
+    } else if (data.status === "success") {
+      onContinue();
+    }
   };
 
   return (

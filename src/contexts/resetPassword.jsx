@@ -8,6 +8,7 @@ export const PasswordProvider = ({ children }) => {
     code: "",
     password: "",
     step: 1,
+    token: "",
   });
   return (
     <PasswordContext.Provider value={{ password, setPassword }}>

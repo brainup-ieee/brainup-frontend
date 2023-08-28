@@ -45,7 +45,7 @@ export const RegisterBtn = ({ enabled }) => {
     <div className="w-full">
       <ButtonFull
         text={registerMutation.isLoading ? "...Loading" : "Register"}
-        enabled={enabled}
+        enabled={enabled && !registerMutation.isLoading}
         clickHandler={registerHandler}
         isLoading={registerMutation.isLoading}
       />

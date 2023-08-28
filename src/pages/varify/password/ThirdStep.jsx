@@ -41,20 +41,24 @@ export const ThirdStep = ({ onContinue }) => {
     error: "",
   });
   const [enableContinue, setEnableContinue] = useState(false);
-  const userToken = localStorage.getItem("userToken");
   const { password, setPassword } = useContext(PasswordContext);
-  const resetPasswordMutation = useResetPassword(password.password, userToken);
+  const resetPasswordMutation = useResetPassword(password.password, password.token);
 
   useEffect(() => {
-    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
-    const { password } = ResetPage;
-    if (!password) {
+    const userToken = localStorage.getItem("userToken");
+    if (!userToken) {
+      alert("Something went wrong");
+      navigate("/signin");
+    }
+
+    const resetPage = localStorage.getItem("ResetPage");
+    if (resetPage) {
+      const data = JSON.parse(resetPage);
+      setPassword({ ...data, step: 3, token: userToken });
+    } else {
       localStorage.setItem(
         "ResetPage",
-        JSON.stringify({
-          ...ResetPage,
-          password: "",
-        })
+        JSON.stringify({ ...password, step: 1 })
       );
     }
   }, []);
@@ -70,14 +74,14 @@ export const ThirdStep = ({ onContinue }) => {
 
     setPassword((prev) => ({ ...prev, password: value }));
 
-    const ResetPage = JSON.parse(localStorage.getItem("ResetPage"));
     localStorage.setItem(
       "ResetPage",
       JSON.stringify({
-        ...ResetPage,
+        ...password,
         password: value,
       })
     );
+
     setEnableContinue(validateContinue(value, confirmPassword.value));
   };
 
@@ -104,8 +108,8 @@ export const ThirdStep = ({ onContinue }) => {
     if (data.status === "failed") {
       alert(data.message);
     } else if (data.status === "success") {
-      console.log(data);
-      navigate("/login");
+      alert(data.message);
+      navigate("/signin");
     }
   };
 
@@ -135,7 +139,7 @@ export const ThirdStep = ({ onContinue }) => {
       <div>
         <ButtonFull
           text="Save Password"
-          enabled={enableContinue}
+          enabled={enableContinue && !resetPasswordMutation.isLoading}
           clickHandler={handleNewPassword}
           isLoading={resetPasswordMutation.isLoading}
         />
