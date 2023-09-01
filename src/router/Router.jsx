@@ -21,6 +21,14 @@ import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
 import { SigninPage } from "../pages/signin/Index";
 import { VarificationPage } from "../pages/varify/Index";
+import { TeacherDashboard } from "../pages/dashboard/teacher";
+import { StudentDashboard } from "../pages/dashboard/student";
+import { CreateClassroom } from "../pages/classroom/createClass";
+import { CreateLesson } from "../pages/lesson/createLesson";
+import { CreateQuiz } from "../pages/quiz/createQuiz";
+import { ViewClassroom } from "../pages/classroom/viewClass";
+import { ViewLesson } from "../pages/lesson/viewLesson";
+import { ViewQuiz } from "../pages/quiz/viewQuiz";
 
 const Layout = ({ children }) => {
   return (
@@ -40,6 +48,14 @@ export const RouterComponent = () => {
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="pricing" element={<PricingPage />} />
+          <Route path="teacher-dashboard" element={<TeacherDashboard />} />
+          <Route path="student-dashboard" element={<StudentDashboard />} />
+          <Route path="classrooms/create" element={<CreateClassroom /> } />
+          <Route path="lessons/create" element={<CreateLesson /> } />
+          <Route path="quizzes/create" element={<CreateQuiz /> } />
+          <Route path="classrooms/:id" element={<ViewClassroom /> } />
+          <Route path="lessons/:id" element={<ViewLesson /> } />
+          <Route path="quizzes/:id" element={<ViewQuiz /> } />
         </Route>
         <Route
           path="register"
