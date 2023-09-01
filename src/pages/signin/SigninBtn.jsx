@@ -13,12 +13,12 @@ const useSignin = (data) => {
   );
 };
 
-export const SigninBtn = ({ enabled, data }) => {
+export const SigninBtn = ({ enabled, data: state }) => {
   const navigate = useNavigate();
-  const SigninMutation = useSignin(data);
+  const SigninMutation = useSignin(state);
 
   const SigninHandler = async () => {
-    const { data } = await SigninMutation.mutateAsync();
+    const { data } = await SigninMutation.mutateAsync(state);
     console.log(data);
     if (data.status === "failed") {
       alert(data.message);

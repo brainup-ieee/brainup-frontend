@@ -16,7 +16,6 @@ const useResetPassword = (password, token) => {
 };
 
 const validatePassword = (password) => {
-  console.log(password);
   if (password.trim() === "") {
     return "Password is required";
   }
@@ -42,7 +41,10 @@ export const ThirdStep = ({ onContinue }) => {
   });
   const [enableContinue, setEnableContinue] = useState(false);
   const { password, setPassword } = useContext(PasswordContext);
-  const resetPasswordMutation = useResetPassword(password.password, password.token);
+  const resetPasswordMutation = useResetPassword(
+    password.password,
+    password.token
+  );
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -104,11 +106,14 @@ export const ThirdStep = ({ onContinue }) => {
   };
 
   const handleNewPassword = async () => {
-    const { data } = await resetPasswordMutation.mutateAsync();
+    const { data } = await resetPasswordMutation.mutateAsync(
+      password.password,
+      password.token
+    );
     if (data.status === "failed") {
       alert(data.message);
     } else if (data.status === "success") {
-      alert(data.message);
+      alert("Password changed successfully");
       navigate("/signin");
     }
   };

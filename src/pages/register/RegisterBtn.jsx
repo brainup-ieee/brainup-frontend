@@ -22,11 +22,11 @@ export const RegisterBtn = ({ enabled }) => {
   const navigate = useNavigate();
   const { register, setRegister } = useContext(RegisterContext);
   const userData = JSON.parse(localStorage.getItem("userRegisterData"));
-  const [data, setData] = useState({ ...userData });
-  const registerMutation = useRegister(data);
+  const [state, setState] = useState({ ...userData });
+  const registerMutation = useRegister(state);
 
   const registerHandler = async () => {
-    const { data } = await registerMutation.mutateAsync();
+    const { data } = await registerMutation.mutateAsync(state);
     if (data.status === "failed") {
       alert(data.message);
       setRegister((prev) => ({ ...prev, step: 2 }));
@@ -37,7 +37,7 @@ export const RegisterBtn = ({ enabled }) => {
     } else if (data.status === "success") {
       alert(data.message);
       localStorage.removeItem("userRegisterData");
-      navigate("/signin");
+      navigate("/email-confirm");
     }
   };
 

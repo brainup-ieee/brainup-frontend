@@ -58,7 +58,7 @@ export const RouterComponent = () => {
             </PasswordProvider>
           }
         />
-        <Route path="user-confirm" element={<VarificationPage />} />
+        <Route path="email-confirm" element={<VarificationPage />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </Router>

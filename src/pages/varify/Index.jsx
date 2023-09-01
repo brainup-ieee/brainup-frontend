@@ -31,7 +31,7 @@ export const VarificationPage = () => {
         placeholder: "Enter your email",
         error: "",
       }));
-    } else if (pathname === "user-confirm") {
+    } else if (pathname === "email-confirm") {
       setPageFunction(2);
       setState((prevState) => ({
         ...prevState,

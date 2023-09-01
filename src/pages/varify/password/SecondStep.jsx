@@ -72,7 +72,7 @@ export const SecondStep = ({ onContinue }) => {
     if (data.status === "failed") {
       alert(data.message);
     } else if (data.status === "success") {
-      alert(data.message);
+      alert(data.token);
       setPassword((prev) => ({ ...prev, token: data.token }));
       localStorage.setItem("userToken", data.token);
       onContinue();
