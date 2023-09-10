@@ -36,6 +36,7 @@ export const RegisterBtn = ({ enabled }) => {
       );
     } else if (data.status === "success") {
       alert(data.message);
+      localStorage.setItem("isRegistered", true);
       localStorage.removeItem("userRegisterData");
       navigate("/email-confirm");
     }
