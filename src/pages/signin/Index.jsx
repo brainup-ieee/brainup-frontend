@@ -59,6 +59,7 @@ export const SigninPage = () => {
   const [state, dispatch] = useReducer(reducer, INITIALSTATE);
 
   useEffect(() => {
+    localStorage.removeItem("userRegisterData");
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
 
     if (userLogin) {
