@@ -7,7 +7,7 @@ import { AuthContext } from "../contexts/auth";
 import logo from "../assets/logos/Logo.png";
 import avatar from "../assets/images/avatar.png";
 import { Button } from "./Button";
-import { BellIcon } from "./icons/bellIcon";
+import { BellIcon } from "./icons/BellIcon";
 
 const PAGE = [1, 2, 3, 4];
 

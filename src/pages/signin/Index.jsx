@@ -9,7 +9,7 @@ import { SigninBtn } from "./SigninBtn";
 
 // assets
 import logo from "../../assets/logos/Logo.png";
-import { ErrorAlert } from "../../components/errorAlert";
+import { ErrorAlert } from "../../components/ErrorAlert";
 
 const INITIALSTATE = {
   email: "",

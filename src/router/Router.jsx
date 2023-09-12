@@ -21,7 +21,7 @@ import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
 import { SigninPage } from "../pages/signin/Index";
 import { VarificationPage } from "../pages/varify/Index";
-import { TeacherDashboard } from "../pages/dashboard/teacher";
+import { TeacherDashboard } from "../pages/dashboard/teacher/index";
 import { StudentDashboard } from "../pages/dashboard/student";
 import { CreateClassroom } from "../pages/classroom/createClass";
 import { CreateLesson } from "../pages/lesson/createLesson";
