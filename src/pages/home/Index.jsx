@@ -2,7 +2,7 @@
 import { Button } from "../../components/Button";
 
 // assets
-import landingImage from "../../assets/images/landing-original.png";
+import landingImage from "../../assets/images/landing-original.webp";
 import { useEffect, useState } from "react";
 
 const LandingSection = () => {
