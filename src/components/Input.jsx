@@ -9,14 +9,13 @@ export const Input = ({ text, type, placeholder, value, change, error }) => {
           id={text}
           value={value}
           placeholder={placeholder}
-          className={"w-full px-3 py-2 border-2 border-black rounded-xl focus:outline-none " + (error ? "border-[#FF5555]" : "focus:border-primary")}
+          className={
+            "w-full px-3 py-2 border-2 border-black rounded-xl focus:outline-none " +
+            (error ? "border-[#FF5555]" : "focus:border-primary")
+          }
           onChange={change}
         />
-        <div
-          className={"px-3 text-[#FF5555] text-sm"}
-        >
-          {error}
-        </div>
+        <div className={"px-3 text-[#FF5555] text-sm"}>{error}</div>
       </label>
     </div>
   );

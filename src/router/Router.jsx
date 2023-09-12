@@ -50,12 +50,12 @@ export const RouterComponent = () => {
           <Route path="pricing" element={<PricingPage />} />
           <Route path="teacher-dashboard" element={<TeacherDashboard />} />
           <Route path="student-dashboard" element={<StudentDashboard />} />
-          <Route path="classrooms/create" element={<CreateClassroom /> } />
-          <Route path="lessons/create" element={<CreateLesson /> } />
-          <Route path="quizzes/create" element={<CreateQuiz /> } />
-          <Route path="classrooms/:id" element={<ViewClassroom /> } />
-          <Route path="lessons/:id" element={<ViewLesson /> } />
-          <Route path="quizzes/:id" element={<ViewQuiz /> } />
+          <Route path="classrooms/create" element={<CreateClassroom />} />
+          <Route path="lessons/create" element={<CreateLesson />} />
+          <Route path="quizzes/create" element={<CreateQuiz />} />
+          <Route path="classrooms/:id" element={<ViewClassroom />} />
+          <Route path="lessons/:id" element={<ViewLesson />} />
+          <Route path="quizzes/:id" element={<ViewQuiz />} />
         </Route>
         <Route
           path="register"
