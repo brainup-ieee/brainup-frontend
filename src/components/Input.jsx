@@ -10,8 +10,8 @@ export const Input = ({ text, type, placeholder, value, change, error }) => {
           value={value}
           placeholder={placeholder}
           className={
-            "w-full px-3 py-2 border-2 border-black rounded-xl focus:outline-none " +
-            (error ? "border-[#FF5555]" : "focus:border-primary")
+            "w-full px-3 py-2 border-2 rounded-xl focus:outline-none " +
+            (error ? " border-[#FF5555]" : "focus:border-primary border-black")
           }
           onChange={change}
         />

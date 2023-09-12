@@ -29,6 +29,7 @@ import { CreateQuiz } from "../pages/quiz/createQuiz";
 import { ViewClassroom } from "../pages/classroom/viewClass";
 import { ViewLesson } from "../pages/lesson/viewLesson";
 import { ViewQuiz } from "../pages/quiz/viewQuiz";
+import { AuthContextProvider } from "../contexts/authAlert";
 
 const Layout = ({ children }) => {
   return (
@@ -61,11 +62,20 @@ export const RouterComponent = () => {
           path="register"
           element={
             <RegisterProvider>
-              <RegisterPage />
+              <AuthContextProvider>
+                <RegisterPage />
+              </AuthContextProvider>
             </RegisterProvider>
           }
         />
-        <Route path="signin" element={<SigninPage />} />
+        <Route
+          path="signin"
+          element={
+            <AuthContextProvider>
+              <SigninPage />
+            </AuthContextProvider>
+          }
+        />
         <Route
           path="forgot-password"
           element={

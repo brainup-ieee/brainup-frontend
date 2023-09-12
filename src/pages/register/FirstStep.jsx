@@ -82,7 +82,13 @@ export const RegisterToggle = ({
       <div>
         <p className="text-center text-gray-500 font-nunito select-none">
           Already have an account?{" "}
-          <Link to="/signin" className="text-primary font-bold">
+          <Link
+            to="/signin"
+            className="text-primary font-bold"
+            onClick={() => {
+              localStorage.removeItem("userRegisterData");
+            }}
+          >
             Sign in
           </Link>
         </p>

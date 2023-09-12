@@ -6,9 +6,44 @@ import { Link, useLocation } from "react-router-dom";
 
 // assets
 import logo from "../assets/logos/Logo.png";
+import avatar from "../assets/images/avatar.png";
 import { Button } from "./Button";
+import { BellIcon } from "./icons/bellIcon";
 
 const PAGE = [1, 2, 3, 4];
+
+const AuthToggle = () => {
+  const [navigation, setNavigation] = useState(0);
+  useEffect(() => {
+    const userType = localStorage.getItem("user-type");
+    if (userType === "teacher") {
+      setNavigation(1);
+    } else if (userType === "student") {
+      setNavigation(2);
+    }
+  }, []);
+
+  return (
+    <>
+      {navigation === 0 ? (
+        <div className="flex items-center gap-4 font-bold">
+          <Link to="/signin">Sign in</Link>
+          <Button link="/register" text="Register" />
+        </div>
+      ) : (
+        <div className="flex items-center gap-4 font-bold">
+          <BellIcon className="w-4 h-4" />
+          <Link
+            to={navigation === 1 ? "/teacher-dashboard" : "/student-dashboard"}
+            className="w-12"
+          >
+            <img src={avatar} alt="user avatar" />
+          </Link>
+        </div>
+      )}
+    </>
+  );
+};
 
 export const Navbar = () => {
   const currentURL = useLocation().pathname.toLowerCase();
@@ -16,16 +51,22 @@ export const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(false);
 
   useEffect(() => {
-    if (currentURL === "/") {
-      setUnderline(PAGE[0]);
-    } else if (currentURL === "/about") {
-      setUnderline(PAGE[1]);
-    } else if (currentURL === "/pricing") {
-      setUnderline(PAGE[2]);
-    } else if (currentURL === "/contact") {
-      setUnderline(PAGE[3]);
-    } else {
-      setUnderline(null);
+    switch (currentURL) {
+      case "/":
+        setUnderline(PAGE[0]);
+        break;
+      case "/about":
+        setUnderline(PAGE[1]);
+        break;
+      case "/pricing":
+        setUnderline(PAGE[2]);
+        break;
+      case "/contact":
+        setUnderline(PAGE[3]);
+        break;
+      default:
+        setUnderline(null);
+        break;
     }
   }, [currentURL]);
 
@@ -95,10 +136,7 @@ export const Navbar = () => {
           <Link to="/contact">Contact Us</Link>
         </li>
       </ul>
-      <div className="flex items-center gap-4 font-bold">
-        <Link to="/signin">Sign in</Link>
-        <Button link="/register" text="Register" />
-      </div>
+      <AuthToggle />
     </nav>
   );
 };

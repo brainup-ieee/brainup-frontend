@@ -9,6 +9,7 @@ import { SigninBtn } from "./SigninBtn";
 
 // assets
 import logo from "../../assets/logos/Logo.png";
+import { ErrorAlert } from "../../components/errorAlert";
 
 const INITIALSTATE = {
   email: "",
@@ -87,53 +88,62 @@ export const SigninPage = () => {
   };
 
   return (
-    <FormContainer>
-      <h2 className="mb-8">
-        <Link to="/">
-          <img src={logo} alt="logo" className="h-10" />
-        </Link>
-      </h2>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-nunito font-bold">Welcome Back!</h2>
-        <div className="w-full">
-          <Input
-            text="Email"
-            type="text"
-            placeholder="Enter your email"
-            error={state.errors.email}
-            change={handleChange("email")}
-            value={state.email}
-          />
-          <Input
-            text="Password"
-            type="password"
-            placeholder="Enter Password"
-            error={state.errors.password}
-            change={handleChange("password")}
-            value={state.password}
+    <>
+      <ErrorAlert />
+      <FormContainer>
+        <h2 className="mb-8">
+          <Link to="/">
+            <img src={logo} alt="logo" className="h-10" />
+          </Link>
+        </h2>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-2xl font-nunito font-bold">Welcome Back!</h2>
+          <div className="w-full">
+            <Input
+              text="Email"
+              type="text"
+              placeholder="Enter your email"
+              error={state.errors.email}
+              change={handleChange("email")}
+              value={state.email}
+            />
+            <Input
+              text="Password"
+              type="password"
+              placeholder="Enter Password"
+              error={state.errors.password}
+              change={handleChange("password")}
+              value={state.password}
+            />
+            <div>
+              <Link to="/forgot-password" className="text-primary font-nunito">
+                Forgot Password ?
+              </Link>
+            </div>
+          </div>
+          <SigninBtn
+            enabled={state.continue}
+            data={{
+              email: state.email,
+              password: state.password,
+            }}
           />
           <div>
-            <Link to="/forgot-password" className="text-primary font-nunito">
-              Forgot Password ?
-            </Link>
+            <p className="text-center text-gray-500 font-nunito select-none">
+              Doesn't have an Account ?{" "}
+              <Link
+                to="/register"
+                className="text-primary font-bold"
+                onClick={() => {
+                  localStorage.removeItem("userLogin");
+                }}
+              >
+                Register
+              </Link>
+            </p>
           </div>
         </div>
-        <SigninBtn
-          enabled={state.continue}
-          data={{
-            email: state.email,
-            password: state.password,
-          }}
-        />
-        <div>
-          <p className="text-center text-gray-500 font-nunito select-none">
-            Doesn't have an Account ?{" "}
-            <Link to="/register" className="text-primary font-bold">
-              Register
-            </Link>
-          </p>
-        </div>
-      </div>
-    </FormContainer>
+      </FormContainer>
+    </>
   );
 };
