@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/authAlert";
+import { AuthAlertContext } from "../../contexts/authAlert";
+import { AuthContext } from "../../contexts/auth";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +18,8 @@ const useSignin = (data) => {
 export const SigninBtn = ({ enabled, data: state }) => {
   const navigate = useNavigate();
   const SigninMutation = useSignin(state);
-  const { setAuthAlert } = useContext(AuthContext);
+  const { setAuthAlert } = useContext(AuthAlertContext);
+  const { setUserState } = useContext(AuthContext);
 
   const SigninHandler = async () => {
     const { data } = await SigninMutation.mutateAsync(state);
@@ -29,6 +31,15 @@ export const SigninBtn = ({ enabled, data: state }) => {
     } else if (data.status === "success") {
       localStorage.setItem("userToken", data.token);
       localStorage.setItem("user-type", data["user-type"]);
+      setUserState((prev) => ({
+        ...prev,
+        isAuth: true,
+        user: {
+          ...prev.user,
+          token: data.token,
+          type: data["user-type"],
+        },
+      }));
       localStorage.removeItem("userLogin");
       navigate("/");
     }

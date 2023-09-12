@@ -1,82 +1,64 @@
 import { ListContainer } from "../../components/listContainer";
 import { Button } from "../../components/Button";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { SkeltonLoader } from "../../components/skeltonLoader";
 
-const CLASSROOMS = [
-  {
-    id: 1,
-    title: "Classroom 1",
-    description: "This is classroom 1",
-  },
-  {
-    id: 2,
-    title: "Classroom 2",
-    description: "This is classroom 2",
-  },
-  {
-    id: 3,
-    title: "Classroom 3",
-    description: "This is classroom 3",
-  },
-];
-
-const LESSONS = [
-  {
-    id: 1,
-    title: "Lesson 1",
-    description: "This is lesson 1",
-  },
-  {
-    id: 2,
-    title: "Lesson 2",
-    description: "This is lesson 2",
-  },
-  {
-    id: 3,
-    title: "Lesson 3",
-    description: "This is lesson 3",
-  },
-];
-
-const QUIZES = [
-  {
-    id: 1,
-    title: "Quiz 1",
-    description: "This is quiz 1",
-  },
-  {
-    id: 2,
-    title: "Quiz 2",
-    description: "This is quiz 2",
-  },
-  {
-    id: 3,
-    title: "Quiz 3",
-    description: "This is quiz 3",
-  },
-];
+const fetchClassrooms = async () => {
+  // headers for authorization
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+  };
+  return await axios
+    .get("https://brainup-api.mazenamir.com/api/classrooms/teacher/get", {
+      headers,
+    })
+    .then((res) => res.data);
+};
 
 export const TeacherDashboard = () => {
+  const navigate = useNavigate();
+  const [userToken, setUserToken] = useState(null);
+  const { data: classrooms, isLoading } = useQuery(
+    "classrooms",
+    fetchClassrooms
+  );
+
+  console.log(isLoading, classrooms);
+
+  useEffect(() => {
+    const isUserTokenExist = localStorage.getItem("userToken");
+    if (isUserTokenExist) {
+      setUserToken(isUserTokenExist);
+    } else {
+      navigate("/signin");
+    }
+  }, []);
+
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">
-      <h1 className="text-2xl font-semibold">Teacher Dashboard</h1>
-      <section className="flex flex-col gap-2 border-b-2 border-b-primary pb-2">
-        <h2 className="text-xl font-semibold">My Classrooms</h2>
-        <Button link="/classrooms/create" text="Create a Classroom" />
-        <p className="text-lg">list of classrooms</p>
-        <ListContainer list={CLASSROOMS} url="/classrooms" />
-      </section>
-      <section className="flex flex-col gap-2 border-b-2 border-b-primary pb-2">
-        <h2 className="text-xl font-semibold">My Lessons</h2>
-        <Button link="/lessons/create" text="Create a Lesson" />
-        <p className="text-lg">list of lessons</p>
-        <ListContainer list={LESSONS} url="/lessons" />
-      </section>
-      <section className="flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">My Quizes</h2>
-        <Button link="/quizzes/create" text="Create a Quiz" />
-        <p className="text-lg">list of quizes</p>
-        <ListContainer list={QUIZES} url="/quizes" />
-      </section>
+      <h1 className="text-2xl font-semibold">Classrooms</h1>
+      <div className="card-grid">
+        <div
+          className="w-full h-60 bg-secondary rounded-xl relative cursor-pointer"
+          onClick={() => navigate("/dashboard/teacher/create-classroom")}
+        >
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/4 h-2 bg-primary rounded-full"></span>
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-1/4 bg-primary rounded-full"></span>
+        </div>
+        {isLoading ? (
+          <>
+            <SkeltonLoader />
+            <SkeltonLoader />
+            <SkeltonLoader />
+            <SkeltonLoader />
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
     </main>
   );
 };

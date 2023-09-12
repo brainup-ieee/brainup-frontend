@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext();
+export const AuthAlertContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthAlertContextProvider = ({ children }) => {
   const [authAlert, setAuthAlert] = useState({
     show: false,
     message: "",
@@ -20,13 +20,13 @@ export const AuthContextProvider = ({ children }) => {
   }, [authAlert]);
 
   return (
-    <AuthContext.Provider
+    <AuthAlertContext.Provider
       value={{
         authAlert,
         setAuthAlert,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthAlertContext.Provider>
   );
 };

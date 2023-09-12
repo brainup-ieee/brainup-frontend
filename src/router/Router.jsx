@@ -29,7 +29,7 @@ import { CreateQuiz } from "../pages/quiz/createQuiz";
 import { ViewClassroom } from "../pages/classroom/viewClass";
 import { ViewLesson } from "../pages/lesson/viewLesson";
 import { ViewQuiz } from "../pages/quiz/viewQuiz";
-import { AuthContextProvider } from "../contexts/authAlert";
+import { AuthAlertContextProvider } from "../contexts/authAlert";
 
 const Layout = ({ children }) => {
   return (
@@ -62,18 +62,18 @@ export const RouterComponent = () => {
           path="register"
           element={
             <RegisterProvider>
-              <AuthContextProvider>
+              <AuthAlertContextProvider>
                 <RegisterPage />
-              </AuthContextProvider>
+              </AuthAlertContextProvider>
             </RegisterProvider>
           }
         />
         <Route
           path="signin"
           element={
-            <AuthContextProvider>
+            <AuthAlertContextProvider>
               <SigninPage />
-            </AuthContextProvider>
+            </AuthAlertContextProvider>
           }
         />
         <Route

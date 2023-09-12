@@ -6,3 +6,9 @@
   font-family: "CooperArabic";
   src: url("../fonts/CooperArabic.woff2") format("woff2");
 }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+}
