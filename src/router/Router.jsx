@@ -26,10 +26,10 @@ import { StudentDashboard } from "../pages/dashboard/student";
 import { CreateClassroom } from "../pages/classroom/createClass";
 import { CreateLesson } from "../pages/lesson/createLesson";
 import { CreateQuiz } from "../pages/quiz/createQuiz";
-import { ViewClassroom } from "../pages/classroom/viewClass";
 import { ViewLesson } from "../pages/lesson/viewLesson";
 import { ViewQuiz } from "../pages/quiz/viewQuiz";
 import { AuthAlertContextProvider } from "../contexts/authAlert";
+import { Classroom } from "../pages/classroom";
 
 const Layout = ({ children }) => {
   return (
@@ -54,7 +54,7 @@ export const RouterComponent = () => {
           <Route path="classrooms/create" element={<CreateClassroom />} />
           <Route path="lessons/create" element={<CreateLesson />} />
           <Route path="quizzes/create" element={<CreateQuiz />} />
-          <Route path="classrooms/:id" element={<ViewClassroom />} />
+          <Route path="/teacher/classroom/:id" element={<Classroom />} />
           <Route path="lessons/:id" element={<ViewLesson />} />
           <Route path="quizzes/:id" element={<ViewQuiz />} />
         </Route>
