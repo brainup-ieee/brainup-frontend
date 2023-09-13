@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { SkeltonLoader } from "../../../components/skeltonLoader";
+import { SkeltonLoader } from "../../../components/SkeltonLoader";
 import { useGet } from "../../../hooks/useFetch";
 import { CreateClassroomCard } from "../../../components/CreateClassRoomCArd";
 import { AddClassroomCard } from "./addClassroom";

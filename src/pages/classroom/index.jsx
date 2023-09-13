@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGet } from "../../hooks/useFetch";
 import { useEffect } from "react";
+import { ClassroomLoader } from "../../components/ClassroomLoader";
 
 export const Classroom = () => {
   const navigate = useNavigate();
@@ -16,10 +17,11 @@ export const Classroom = () => {
       navigate("/signin");
     }
   }, []);
+
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">
       {isLoading ? (
-        <p>Loading...</p>
+        <ClassroomLoader />
       ) : (
         <h1 className="text-2xl font-semibold">
           {data.classroom.name} Classroom
