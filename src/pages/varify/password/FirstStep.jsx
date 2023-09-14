@@ -29,7 +29,6 @@ export const FirstStep = ({ onContinue }) => {
   const [enableContinue, setEnableContinue] = useState(false);
   const { password, setPassword } = useContext(PasswordContext);
   const confirmEmailMutation = useConfirmEmail(password.email);
-
   useEffect(() => {
     const ResetPage = localStorage.getItem("ResetPage");
     if (ResetPage) {
@@ -72,7 +71,7 @@ export const FirstStep = ({ onContinue }) => {
   };
 
   const handleContinue = async () => {
-    const { data } = await confirmEmailMutation.mutateAsync();
+    const { data } = await confirmEmailMutation.mutateAsync(password.email);
     if (data.status === "failed") {
       alert(data.message);
     } else if (data.status === "success") {
