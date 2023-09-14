@@ -19,6 +19,7 @@ export const CreateLesson = () => {
   const url = "https://brainup-api.mazenamir.com/api/lessons/teacher/create";
   const header = {
     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    "Content-Type": "multipart/form-data",
   };
   const addLesson = usePostMutate(url, header, formData);
 
@@ -47,9 +48,17 @@ export const CreateLesson = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = addLesson.mutateAsync(url, header, formData);
+
+    // const form = new FormData();
+    // form.append("classroom_id", formData.classroom_id);
+    // form.append("name", formData.name);
+    // form.append("video", formData.video);
+    // form.append("pdf", formData.pdf);
+
+    const data = await addLesson.mutateAsync(url, header, formData);
+    console.log(data);
     if (data === undefined) {
       alert("Something went wrong");
       return;
@@ -57,8 +66,8 @@ export const CreateLesson = () => {
 
     if (data.status === "success") {
       alert(data.message);
-      navigate(`/teacher/classroom/${id}`);
     }
+    navigate(`/teacher/classroom/${id}`);
   };
 
   const handleCancel = () => {

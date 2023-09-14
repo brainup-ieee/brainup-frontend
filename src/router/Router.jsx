@@ -52,10 +52,16 @@ export const RouterComponent = () => {
           <Route path="teacher-dashboard" element={<TeacherDashboard />} />
           <Route path="student-dashboard" element={<StudentDashboard />} />
           <Route path="classrooms/create" element={<CreateClassroom />} />
-          <Route path="classroom/:id/lesson/create" element={<CreateLesson />} />
+          <Route
+            path="classroom/:id/lesson/create"
+            element={<CreateLesson />}
+          />
           <Route path="classroom/:id/quiz/create" element={<CreateQuiz />} />
           <Route path="/teacher/classroom/:id" element={<Classroom />} />
-          <Route path="lessons/:id" element={<ViewLesson />} />
+          <Route
+            path="/:classroom/:classroom_id/lesson/:id"
+            element={<ViewLesson />}
+          />
           <Route path="quizzes/:id" element={<ViewQuiz />} />
         </Route>
         <Route
