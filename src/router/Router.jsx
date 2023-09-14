@@ -21,15 +21,15 @@ import { PricingPage } from "../pages/pricing/Index";
 import { RegisterPage } from "../pages/register/Index";
 import { SigninPage } from "../pages/signin/Index";
 import { VarificationPage } from "../pages/varify/Index";
-import { TeacherDashboard } from "../pages/dashboard/teacher";
+import { TeacherDashboard } from "../pages/dashboard/teacher/index";
 import { StudentDashboard } from "../pages/dashboard/student";
 import { CreateClassroom } from "../pages/classroom/createClass";
 import { CreateLesson } from "../pages/lesson/createLesson";
 import { CreateQuiz } from "../pages/quiz/createQuiz";
-import { ViewClassroom } from "../pages/classroom/viewClass";
 import { ViewLesson } from "../pages/lesson/viewLesson";
 import { ViewQuiz } from "../pages/quiz/viewQuiz";
-import { AuthContextProvider } from "../contexts/authAlert";
+import { AuthAlertContextProvider } from "../contexts/authAlert";
+import { Classroom } from "../pages/classroom";
 
 const Layout = ({ children }) => {
   return (
@@ -54,7 +54,7 @@ export const RouterComponent = () => {
           <Route path="classrooms/create" element={<CreateClassroom />} />
           <Route path="lessons/create" element={<CreateLesson />} />
           <Route path="quizzes/create" element={<CreateQuiz />} />
-          <Route path="classrooms/:id" element={<ViewClassroom />} />
+          <Route path="/teacher/classroom/:id" element={<Classroom />} />
           <Route path="lessons/:id" element={<ViewLesson />} />
           <Route path="quizzes/:id" element={<ViewQuiz />} />
         </Route>
@@ -62,18 +62,18 @@ export const RouterComponent = () => {
           path="register"
           element={
             <RegisterProvider>
-              <AuthContextProvider>
+              <AuthAlertContextProvider>
                 <RegisterPage />
-              </AuthContextProvider>
+              </AuthAlertContextProvider>
             </RegisterProvider>
           }
         />
         <Route
           path="signin"
           element={
-            <AuthContextProvider>
+            <AuthAlertContextProvider>
               <SigninPage />
-            </AuthContextProvider>
+            </AuthAlertContextProvider>
           }
         />
         <Route

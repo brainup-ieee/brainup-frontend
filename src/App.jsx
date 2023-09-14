@@ -5,11 +5,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterComponent } from "./router/Router";
 // assets
 import "./assets/styles/index.css";
+import { AuthProvider } from "./contexts/auth";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  return <RouterComponent />;
+  return (
+    <AuthProvider>
+      <RouterComponent />
+    </AuthProvider>
+  );
 };
 
 const container = document.getElementById("root");

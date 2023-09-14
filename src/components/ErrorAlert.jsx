@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { AuthContext } from "../contexts/authAlert";
+import { AuthAlertContext } from "../contexts/authAlert";
 
 export const ErrorAlert = () => {
-  const { authAlert } = useContext(AuthContext);
+  const { authAlert } = useContext(AuthAlertContext);
   return (
     <div
       className={

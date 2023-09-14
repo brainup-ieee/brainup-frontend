@@ -1,19 +1,19 @@
 // hooks
-import { useEffect, useState } from "react";
-
-// conponents
+import { useEffect, useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../contexts/auth";
 
 // assets
 import logo from "../assets/logos/Logo.png";
 import avatar from "../assets/images/avatar.png";
 import { Button } from "./Button";
-import { BellIcon } from "./icons/bellIcon";
+import { BellIcon } from "./icons/BellIcon";
 
 const PAGE = [1, 2, 3, 4];
 
 const AuthToggle = () => {
   const [navigation, setNavigation] = useState(0);
+  // const { userState } = useContext(AuthContext);
   useEffect(() => {
     const userType = localStorage.getItem("user-type");
     if (userType === "teacher") {
