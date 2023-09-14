@@ -61,9 +61,19 @@ const ClassroomBody = ({ classroom }) => {
         </div>
       </div>
       {activeTab === "lessons" ? (
-        <ClassroomList list={classroom.lessons} type="lessons" />
+        <ClassroomList
+          list={classroom.lessons}
+          classroomName={classroom.name}
+          classroomID={classroom.id}
+          type="lessons"
+        />
       ) : (
-        <ClassroomList list={classroom.quizzes} type="quizzes" />
+        <ClassroomList
+          list={classroom.quizzes}
+          classroomName={classroom.name}
+          classroomID={classroom.id}
+          type="quizzes"
+        />
       )}
       <AddButton text={`Add ${activeTab}`} flag={activeTab} id={classroom.id} />
     </>
@@ -76,6 +86,8 @@ export const Classroom = () => {
   const url = `https://brainup-api.mazenamir.com/api/classrooms/teacher/get/${id}`;
   const auth = { Authorization: `Bearer ${localStorage.getItem("userToken")}` };
   const { data, isLoading } = useGet(url, auth);
+
+  console.log(data);
 
   useEffect(() => {
     const isUserTokenExist = localStorage.getItem("userToken");
