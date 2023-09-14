@@ -14,11 +14,13 @@ const Empty = ({ text }) => {
 const Lessons = ({ list, classroomName, classroomID }) => {
   const handleDelete = (id) => {
     const url = `https://brainup-api.mazenamir.com/api/lessons/teacher/delete/${id}`;
-    const header = {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    };
+
     axios
-      .delete(url, header)
+      .delete(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      })
       .then((res) => {
         console.log(res);
       })
