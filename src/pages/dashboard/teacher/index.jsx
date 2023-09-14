@@ -7,7 +7,7 @@ import { AddClassroomCard } from "./addClassroom";
 
 export const TeacherDashboard = () => {
   const navigate = useNavigate();
-  const [userToken, setUserToken] = useState(null);
+  const [, setUserToken] = useState(null);
   const { data, isLoading } = useGet(
     "https://brainup-api.mazenamir.com/api/classrooms/teacher/get",
     { Authorization: `Bearer ${localStorage.getItem("userToken")}` }
@@ -45,17 +45,14 @@ export const TeacherDashboard = () => {
           </>
         ) : (
           <>
-            {classrooms.length === 0 ? (
-              <>No Classrooms</>
-            ) : (
+            {classrooms.length > 0 &&
               classrooms.map((classroom, i) => (
                 <CreateClassroomCard
                   key={classroom.id}
                   classroom={classroom}
                   i={i}
                 />
-              ))
-            )}
+              ))}
           </>
         )}
       </div>
