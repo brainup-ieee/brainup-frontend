@@ -3,6 +3,8 @@ import { PasswordContext } from "../../../contexts/resetPassword";
 import { FirstStep } from "./FirstStep";
 import { SecondStep } from "./SecondStep";
 import { ThirdStep } from "./ThirdStep";
+import { AuthAlertContextProvider } from "../../../contexts/authAlert";
+import { ErrorAlert } from "../../../components/ErrorAlert";
 
 export const ResetPasswordPage = () => {
   const { password, setPassword } = useContext(PasswordContext);
@@ -27,10 +29,11 @@ export const ResetPasswordPage = () => {
   };
 
   return (
-    <>
+    <AuthAlertContextProvider>
+      <ErrorAlert />
       {password.step === 1 && <FirstStep onContinue={handleContinue} />}
       {password.step === 2 && <SecondStep onContinue={handleContinue} />}
       {password.step === 3 && <ThirdStep onContinue={handleContinue} />}
-    </>
+    </AuthAlertContextProvider>
   );
 };

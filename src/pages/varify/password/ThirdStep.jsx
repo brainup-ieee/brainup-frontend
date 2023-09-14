@@ -2,9 +2,11 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { PasswordContext } from "../../../contexts/resetPassword";
+import { AuthAlertContext } from "../../../contexts/authAlert";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
+import { usePostVarify } from "../../../hooks/useFetch";
 
 const useResetPassword = (password, token) => {
   return useMutation(["forgot-password", 3], () =>
@@ -41,10 +43,13 @@ export const ThirdStep = ({ onContinue }) => {
   });
   const [enableContinue, setEnableContinue] = useState(false);
   const { password, setPassword } = useContext(PasswordContext);
-  const resetPasswordMutation = useResetPassword(
-    password.password,
-    password.token
-  );
+  const { setAuthAlert } = useContext(AuthAlertContext);
+  const url = "https://brainup-api.mazenamir.com/api/auth/reset-password";
+  const body = {
+    password: password.password,
+    token: password.token,
+  };
+  const resetPasswordMutation = usePostVarify(url, body);
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -106,15 +111,25 @@ export const ThirdStep = ({ onContinue }) => {
   };
 
   const handleNewPassword = async () => {
-    const { data } = await resetPasswordMutation.mutateAsync(
-      password.password,
-      password.token
-    );
+    const data = await resetPasswordMutation.mutateAsync(url, body);
+
+    if (data === undefined) {
+      setAuthAlert({
+        show: true,
+        message: "Something went wrong, please try again again",
+      });
+      return;
+    }
+
     if (data.status === "failed") {
-      alert(data.message);
+      setAuthAlert({
+        show: true,
+        message: data.message,
+      });
     } else if (data.status === "success") {
-      alert("Password changed successfully");
-      navigate("/signin");
+      localStorage.removeItem("ResetPage");
+      localStorage.removeItem("userToken");
+      navigate("/password-success");
     }
   };
 

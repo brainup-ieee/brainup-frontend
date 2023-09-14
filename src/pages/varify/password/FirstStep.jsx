@@ -1,17 +1,9 @@
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { useMutation } from "react-query";
 import { PasswordContext } from "../../../contexts/resetPassword";
+import { AuthAlertContext } from "../../../contexts/authAlert";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
-
-const useConfirmEmail = (email) => {
-  return useMutation(["forgot-password", 1], () =>
-    axios.post("https://brainup-api.mazenamir.com/api/auth/forgot-password", {
-      email,
-    })
-  );
-};
+import { usePostVarify } from "../../../hooks/useFetch";
 
 const validateEmail = (email) => {
   if (email.trim() === "") {
@@ -28,11 +20,16 @@ export const FirstStep = ({ onContinue }) => {
   const [state, setState] = useState({ value: "", error: "" });
   const [enableContinue, setEnableContinue] = useState(false);
   const { password, setPassword } = useContext(PasswordContext);
-  const confirmEmailMutation = useConfirmEmail(password.email);
+  const { setAuthAlert } = useContext(AuthAlertContext);
+  const url = "https://brainup-api.mazenamir.com/api/auth/forgot-password";
+  const body = { email: password.email };
+  const confirmEmailMutation = usePostVarify(url, body);
+
   useEffect(() => {
     const ResetPage = localStorage.getItem("ResetPage");
     if (ResetPage) {
       const { email } = JSON.parse(ResetPage);
+      setPassword((prev) => ({ ...prev, email }));
       setState((prevState) => ({
         ...prevState,
         value: email,
@@ -71,10 +68,16 @@ export const FirstStep = ({ onContinue }) => {
   };
 
   const handleContinue = async () => {
-    const { data } = await confirmEmailMutation.mutateAsync(password.email);
-    if (data.status === "failed") {
-      alert(data.message);
-    } else if (data.status === "success") {
+    const data = await confirmEmailMutation.mutateAsync(url, body);
+    if (data === undefined) {
+      setAuthAlert({
+        show: true,
+        message: "Something went wrong, please try again later",
+      });
+      return;
+    }
+
+    if (data.status === "success") {
       onContinue();
     }
   };
