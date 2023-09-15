@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { EditIcon } from "../../components/icons/EditIcon";
 import { DeleteIcon } from "../../components/icons/DeleteIcon";
+import { useEffect, useState } from "react";
 
 const Empty = ({ text }) => {
   return (
@@ -11,18 +12,18 @@ const Empty = ({ text }) => {
   );
 };
 
-const Lessons = ({ list, classroomName, classroomID }) => {
-  const handleDelete = (id) => {
+const Lessons = ({ list, classroomName, classroomID, handleDelete }) => {
+  const handleDeleteRequest = (id) => {
     const url = `https://brainup-api.mazenamir.com/api/lessons/teacher/delete/${id}`;
-
+    const header = {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    };
     axios
       .delete(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
+        headers: header,
       })
       .then((res) => {
-        console.log(res);
+        handleDelete(list.filter((lesson) => lesson.id !== id));
       })
       .catch((err) => {
         if (err.response) {
@@ -59,7 +60,7 @@ const Lessons = ({ list, classroomName, classroomID }) => {
                 </button>
                 <button
                   className="flex items-center gap-2 border-2 border-[#FF5555] text-[#FF5555] px-4 py-2 rounded-lg"
-                  onClick={() => handleDelete(lesson.id)}
+                  onClick={() => handleDeleteRequest(lesson.id)}
                 >
                   <DeleteIcon className="w-4 h-4" />
                   <h4>Delete</h4>
@@ -84,24 +85,32 @@ const Quizzes = ({ list, classroomName, classroomID }) => {
 };
 
 export const ClassroomList = ({ list, classroomName, classroomID, type }) => {
-  if (list.length < 1) {
+  const [stateList, setStateList] = useState(list);
+
+  if (stateList.length < 1) {
     return <Empty text={type} />;
   }
+
+  const handleDelete = (newList) => {
+    setStateList(newList);
+  };
 
   if (type === "lessons") {
     return (
       <Lessons
-        list={list}
+        list={stateList}
         classroomName={classroomName}
         classroomID={classroomID}
+        handleDelete={handleDelete}
       />
     );
   } else if (type === "quizzes") {
     return (
       <Quizzes
-        list={list}
+        lessonList={stateList}
         classroomName={classroomName}
         classroomID={classroomID}
+        handleDelete={handleDelete}
       />
     );
   }
