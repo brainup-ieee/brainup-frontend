@@ -68,7 +68,7 @@ const ClassroomBody = ({ classroom }) => {
         />
       ) : (
         <ClassroomList
-          list={classroom.quizzes}
+          list={[]}
           classroomName={classroom.name}
           classroomID={classroom.id}
           type="quizzes"
@@ -84,21 +84,15 @@ export const Classroom = () => {
   const { id } = useParams();
   const url = `https://brainup-api.mazenamir.com/api/classrooms/teacher/get/${id}`;
   const auth = { Authorization: `Bearer ${localStorage.getItem("userToken")}` };
-  const { data, isLoading } = useGet(url, auth);
-  const [classroom, setClassroom] = useState({});
+  const { data, isLoading, refetch } = useGet(url, auth);
 
   useEffect(() => {
     const isUserTokenExist = localStorage.getItem("userToken");
     if (!isUserTokenExist) {
       navigate("/signin");
     }
-  }, []);
-
-  useEffect(() => {
-    if (data && data.classroom) {
-      setClassroom(data.classroom);
-    }
-  }, [data]);
+    refetch();
+  }, [navigate]);
 
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">

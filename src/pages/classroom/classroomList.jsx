@@ -87,6 +87,10 @@ const Quizzes = ({ list, classroomName, classroomID }) => {
 export const ClassroomList = ({ list, classroomName, classroomID, type }) => {
   const [stateList, setStateList] = useState(list);
 
+  useEffect(() => {
+    setStateList(list);
+  }, [list]);
+
   if (stateList.length < 1) {
     return <Empty text={type} />;
   }
@@ -107,7 +111,7 @@ export const ClassroomList = ({ list, classroomName, classroomID, type }) => {
   } else if (type === "quizzes") {
     return (
       <Quizzes
-        lessonList={stateList}
+        list={list}
         classroomName={classroomName}
         classroomID={classroomID}
         handleDelete={handleDelete}
