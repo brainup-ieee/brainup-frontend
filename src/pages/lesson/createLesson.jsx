@@ -1,13 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { usePostMutate } from "../../hooks/useFetch";
-import { UploadIcon } from "../../components/icons/uploadIcon";
 import { MediaInput } from "../../components/mediaInput";
 import { AddIcon } from "../../components/icons/AddIcon";
 import { CancelIcon } from "../../components/icons/CancelIcon";
 
 export const CreateLesson = () => {
-  const { id } = useParams();
+  const { classroom, id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     classroom_id: id,

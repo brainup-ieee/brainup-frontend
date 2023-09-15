@@ -5,14 +5,14 @@ import { ClassroomLoader } from "../../components/ClassroomLoader";
 import { AddIcon } from "../../components/icons/AddIcon";
 import { ClassroomList } from "./classroomList";
 
-const AddButton = ({ text, flag, id }) => {
+const AddButton = ({ text, flag, id, classroomName }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
     if (flag === "lessons") {
-      navigate(`/classroom/${id}/lesson/create`);
+      navigate(`/${classroomName}/${id}/lesson/create`);
     } else {
-      navigate(`/classroom/${id}/quiz/create`);
+      navigate(`/${classroomName}/${id}/quiz/create`);
     }
   };
 
@@ -33,11 +33,16 @@ const ClassroomBody = ({ classroom }) => {
   const [activeTab, setActiveTab] = useState("lessons");
 
   useEffect(() => {
-    localStorage.setItem("activeTab", activeTab);
-  }, [activeTab]);
+    const active = localStorage.getItem("activeTab");
+    if (active) {
+      setActiveTab(active);
+    }
+  }, []);
 
   const handleTabChange = (e) => {
-    setActiveTab(e.target.textContent.toLowerCase());
+    const tab = e.target.textContent.toLowerCase();
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
   };
 
   return (
@@ -68,13 +73,18 @@ const ClassroomBody = ({ classroom }) => {
         />
       ) : (
         <ClassroomList
-          list={classroom.quizzes}
+          list={[]}
           classroomName={classroom.name}
           classroomID={classroom.id}
           type="quizzes"
         />
       )}
-      <AddButton text={`Add ${activeTab}`} flag={activeTab} id={classroom.id} />
+      <AddButton
+        text={`Add ${activeTab}`}
+        flag={activeTab}
+        id={classroom.id}
+        classroomName={classroom.name}
+      />
     </>
   );
 };
@@ -84,21 +94,15 @@ export const Classroom = () => {
   const { id } = useParams();
   const url = `https://brainup-api.mazenamir.com/api/classrooms/teacher/get/${id}`;
   const auth = { Authorization: `Bearer ${localStorage.getItem("userToken")}` };
-  const { data, isLoading } = useGet(url, auth);
-  const [classroom, setClassroom] = useState({});
+  const { data, isLoading, refetch } = useGet(url, auth);
 
   useEffect(() => {
     const isUserTokenExist = localStorage.getItem("userToken");
     if (!isUserTokenExist) {
       navigate("/signin");
     }
-  }, []);
-
-  useEffect(() => {
-    if (data && data.classroom) {
-      setClassroom(data.classroom);
-    }
-  }, [data]);
+    refetch();
+  }, [navigate]);
 
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">

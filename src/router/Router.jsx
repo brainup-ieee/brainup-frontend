@@ -31,6 +31,7 @@ import { ViewQuiz } from "../pages/quiz/viewQuiz";
 import { AuthAlertContextProvider } from "../contexts/authAlert";
 import { Classroom } from "../pages/classroom";
 import { ProcessSuccess } from "../pages/varify/ProcessSuccess";
+import { CreateModel } from "../pages/quiz/createModel";
 
 const Layout = ({ children }) => {
   return (
@@ -54,16 +55,23 @@ export const RouterComponent = () => {
           <Route path="student-dashboard" element={<StudentDashboard />} />
           <Route path="classrooms/create" element={<CreateClassroom />} />
           <Route
-            path="classroom/:id/lesson/create"
+            path=":classroom/:id/lesson/create"
             element={<CreateLesson />}
           />
-          <Route path="classroom/:id/quiz/create" element={<CreateQuiz />} />
-          <Route path="/teacher/classroom/:id" element={<Classroom />} />
+          <Route path=":classroom/:id/quiz/create" element={<CreateQuiz />} />
           <Route
-            path="/:classroom/:classroom_id/lesson/:id"
+            path=":classroom/:id/quiz/model/create"
+            element={<CreateModel />}
+          />
+          <Route path="teacher/classroom/:id" element={<Classroom />} />
+          <Route
+            path=":classroom/:classroom_id/lesson/:id"
             element={<ViewLesson />}
           />
-          <Route path="quizzes/:id" element={<ViewQuiz />} />
+          <Route
+            path=":classroom/:classroom_id/quiz/:id"
+            element={<ViewQuiz />}
+          />
         </Route>
         <Route
           path="register"
