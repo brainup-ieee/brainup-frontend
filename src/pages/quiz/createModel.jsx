@@ -1,6 +1,7 @@
 import { QuizContext, QuizContextProvider } from "../../contexts/quiz";
 import { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { ModelForm } from "./modelForm";
 
 const ModelSchema = () => {
   const { classroom, id } = useParams();
@@ -15,6 +16,7 @@ const ModelSchema = () => {
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">
       <h1 className="text-2xl font-semibold">{classroom} - Question Model</h1>
+      <ModelForm />
     </main>
   );
 };

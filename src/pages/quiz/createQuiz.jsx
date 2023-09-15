@@ -7,17 +7,22 @@ import { ConfigForm } from "./configForm";
 export const QuizSchema = () => {
   const { classroom, id } = useParams();
   const navigate = useNavigate();
-  const { setQuiz } = useContext(QuizContext);
+  const { quiz, setQuiz } = useContext(QuizContext);
 
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       navigate("/signin");
     }
 
-    const quizStorage = JSON.parse(localStorage.getItem("quiz"));
-    quizStorage.classroom_id = id;
-    setQuiz(quizStorage);
-    localStorage.setItem("quiz", JSON.stringify(quizStorage));
+    const quizStorage = localStorage.getItem("quiz");
+    if (!quizStorage) {
+      localStorage.setItem("quiz", JSON.stringify({
+        ...quiz,
+        classroom_id: id,
+      }));
+    } else {
+      setQuiz(JSON.parse(quizStorage));
+    }
   }, []);
 
   return (

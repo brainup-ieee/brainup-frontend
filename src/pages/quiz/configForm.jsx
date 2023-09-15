@@ -38,6 +38,14 @@ export const ConfigForm = () => {
     if (quizStorage) {
       const { configs } = JSON.parse(quizStorage);
       for (const key in configs) {
+        if (
+          key === "active" ||
+          key === "shuffle_questions" ||
+          key === "instant_results" ||
+          key === "results_pdf"
+        ) {
+          continue;
+        }
         dispatch({ type: "CHANGE_VALUE", field: key, value: configs[key] });
       }
     }
@@ -49,6 +57,7 @@ export const ConfigForm = () => {
 
   const handleCheckboxChange = (field, checked) => {
     dispatch({ type: "CHANGE_VALUE", field, value: checked ? 1 : 0 });
+    console.log(state);
   };
 
   const handleSubmit = (e) => {
@@ -56,7 +65,6 @@ export const ConfigForm = () => {
     dispatch({ type: "SUBMIT_FORM" });
     const quizStorage = JSON.parse(localStorage.getItem("quiz"));
     quizStorage.configs = state;
-    console.log("quizStorage", quizStorage);
     setQuiz(quizStorage);
     localStorage.setItem("quiz", JSON.stringify(quizStorage));
     navigate(`/${classroom}/${id}/quiz/model/create`);
@@ -87,7 +95,7 @@ export const ConfigForm = () => {
           htmlFor="quiz-time"
           label="Time in Minutes"
           type="number"
-          placeholder="10"
+          placeholder="15"
           value={state.time}
           onChange={(e) => handleInputChange("time", parseInt(e.target.value))}
         />
