@@ -5,14 +5,14 @@ import { ClassroomLoader } from "../../components/ClassroomLoader";
 import { AddIcon } from "../../components/icons/AddIcon";
 import { ClassroomList } from "./classroomList";
 
-const AddButton = ({ text, flag, id }) => {
+const AddButton = ({ text, flag, id, classroomName }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
     if (flag === "lessons") {
-      navigate(`/classroom/${id}/lesson/create`);
+      navigate(`/${classroomName}/${id}/lesson/create`);
     } else {
-      navigate(`/classroom/${id}/quiz/create`);
+      navigate(`/${classroomName}/${id}/quiz/create`);
     }
   };
 
@@ -33,11 +33,16 @@ const ClassroomBody = ({ classroom }) => {
   const [activeTab, setActiveTab] = useState("lessons");
 
   useEffect(() => {
-    localStorage.setItem("activeTab", activeTab);
-  }, [activeTab]);
+    const active = localStorage.getItem("activeTab");
+    if (active) {
+      setActiveTab(active);
+    }
+  }, []);
 
   const handleTabChange = (e) => {
-    setActiveTab(e.target.textContent.toLowerCase());
+    const tab = e.target.textContent.toLowerCase();
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
   };
 
   return (
@@ -74,7 +79,12 @@ const ClassroomBody = ({ classroom }) => {
           type="quizzes"
         />
       )}
-      <AddButton text={`Add ${activeTab}`} flag={activeTab} id={classroom.id} />
+      <AddButton
+        text={`Add ${activeTab}`}
+        flag={activeTab}
+        id={classroom.id}
+        classroomName={classroom.name}
+      />
     </>
   );
 };
