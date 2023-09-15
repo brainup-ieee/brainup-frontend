@@ -31,7 +31,6 @@ const AddButton = ({ text, flag, id }) => {
 
 const ClassroomBody = ({ classroom }) => {
   const [activeTab, setActiveTab] = useState("lessons");
-  // const [activeState, setActiveState] = useState("show");
 
   useEffect(() => {
     localStorage.setItem("activeTab", activeTab);
@@ -86,8 +85,7 @@ export const Classroom = () => {
   const url = `https://brainup-api.mazenamir.com/api/classrooms/teacher/get/${id}`;
   const auth = { Authorization: `Bearer ${localStorage.getItem("userToken")}` };
   const { data, isLoading } = useGet(url, auth);
-
-  console.log(data);
+  const [classroom, setClassroom] = useState({});
 
   useEffect(() => {
     const isUserTokenExist = localStorage.getItem("userToken");
@@ -95,6 +93,12 @@ export const Classroom = () => {
       navigate("/signin");
     }
   }, []);
+
+  useEffect(() => {
+    if (data && data.classroom) {
+      setClassroom(data.classroom);
+    }
+  }, [data]);
 
   return (
     <main className="mt-4 flex flex-col gap-4 pb-4">

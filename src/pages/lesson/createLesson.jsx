@@ -51,23 +51,18 @@ export const CreateLesson = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const form = new FormData();
-    // form.append("classroom_id", formData.classroom_id);
-    // form.append("name", formData.name);
-    // form.append("video", formData.video);
-    // form.append("pdf", formData.pdf);
-
     const data = await addLesson.mutateAsync(url, header, formData);
-    console.log(data);
+
     if (data === undefined) {
       alert("Something went wrong");
       return;
     }
 
     if (data.status === "success") {
-      alert(data.message);
+      navigate(`/teacher/classroom/${id}`);
+    } else {
+      alert("Something went wrong, please try again");
     }
-    navigate(`/teacher/classroom/${id}`);
   };
 
   const handleCancel = () => {
