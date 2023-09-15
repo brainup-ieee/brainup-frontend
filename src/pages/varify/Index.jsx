@@ -14,7 +14,6 @@ const INITIALSTATE = {
 };
 
 export const VarificationPage = () => {
-  // hooks
   const location = useLocation();
   const [pageFunction, setPageFunction] = useState(null);
   const [state, setState] = useState(INITIALSTATE);

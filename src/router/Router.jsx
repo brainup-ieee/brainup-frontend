@@ -30,6 +30,7 @@ import { ViewLesson } from "../pages/lesson/viewLesson";
 import { ViewQuiz } from "../pages/quiz/viewQuiz";
 import { AuthAlertContextProvider } from "../contexts/authAlert";
 import { Classroom } from "../pages/classroom";
+import { ProcessSuccess } from "../pages/varify/ProcessSuccess";
 
 const Layout = ({ children }) => {
   return (
@@ -91,6 +92,8 @@ export const RouterComponent = () => {
           }
         />
         <Route path="email-confirm" element={<VarificationPage />} />
+        <Route path="password-success" element={<ProcessSuccess />} />
+        <Route path="email-success" element={<ProcessSuccess />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </Router>
