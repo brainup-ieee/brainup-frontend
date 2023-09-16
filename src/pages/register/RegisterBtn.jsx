@@ -36,6 +36,9 @@ export const RegisterBtn = ({ enabled }) => {
       );
     } else if (data.status === "success") {
       localStorage.setItem("userToken", data.token);
+      // Get user_type from state
+      let user_type = state.user_type === 1 ? "teacher" : "student";
+      localStorage.setItem("user-type", user_type);
       localStorage.setItem("isRegistered", true);
       localStorage.removeItem("userRegisterData");
       navigate("/email-confirm");

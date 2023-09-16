@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
 import axios from "axios";
@@ -17,6 +18,8 @@ const validateCode = (code) => {
 export const ConfrimEmailPage = () => {
   const [state, setState] = useState({ value: "", error: "" });
   const [enableContinue, setEnableContinue] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {}, []);
 
@@ -44,7 +47,7 @@ export const ConfrimEmailPage = () => {
       // if code is correct
       if (res.data.status === "success") {
         // navigate to dashboard page
-        navigate("/dashboard");
+        navigate("/"+res.data.user_type+"-dashboard");
       }
     });
     
