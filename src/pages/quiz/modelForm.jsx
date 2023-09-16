@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { QuizContext } from "../../contexts/quiz";
 import { QuizInput } from "./quizInput";
@@ -48,6 +48,7 @@ export const ModelForm = () => {
   const number_of_questions = arrayFrom(quiz.configs.number_of_questions);
   const number_of_choices = arrayFrom(quiz.configs.number_of_choices);
   const [state, dispatch] = useReducer(reducer, []);
+  const [isLoading, setIsLoading] = useState(false);
   const url = "https://brainup-api.mazenamir.com/api/quizes/teacher/create";
   const header = {
     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -95,16 +96,30 @@ export const ModelForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const quizData = {
       configs: quiz.configs,
       classroom_id: quiz.classroom_id,
       questions: [[...state]],
     };
 
-    // console.log(quizData);
-
-    const data = await addQuiz.mutateAsync(url, header, quizData);
-    console.log(data);
+    console.log(quizData);
+    const quizzes = localStorage.getItem("quizzes");
+    if (quizzes) {
+      const parsedQuizzes = JSON.parse(quizzes);
+      parsedQuizzes.push(quizData);
+      localStorage.setItem("quizzes", JSON.stringify(parsedQuizzes));
+    } else {
+      localStorage.setItem("quizzes", JSON.stringify([quizData]));
+    }
+    localStorage.removeItem("quiz");
+    const timer = setTimeout(() => {
+      navigate(`/teacher/classroom/${id}`);
+      setIsLoading(false);
+      clearTimeout(timer);
+    }, 1000);
+    // const data = await addQuiz.mutateAsync(url, header, quizData);
+    // console.log(data);
   };
 
   const handleCancel = (e) => {
@@ -186,7 +201,7 @@ export const ModelForm = () => {
           className="px-8 py-2 text-lg text-primary font-semibold border-2 border-primary rounded-xl transition-colors duration-300 ease-cubic hover:text-white hover:bg-primary"
           type="submit"
         >
-          Create
+          {isLoading ? "Creating..." : "Create"}
         </button>
         <button
           className="px-8 py-2 text-lg text-[#FF5555] font-semibold border-2 border-[#FF5555] rounded-xl transition-colors duration-300 ease-cubic hover:text-white hover:bg-[#FF5555]"

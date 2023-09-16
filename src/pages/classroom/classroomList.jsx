@@ -77,12 +77,57 @@ const Lessons = ({ list, classroomName, classroomID, handleDelete }) => {
 };
 
 const Quizzes = ({ list, classroomName, classroomID }) => {
+  const [stateList, setStateList] = useState([]);
+  console.log(stateList);
+  useEffect(() => {
+    const quizzes = localStorage.getItem("quizzes");
+    if (quizzes) {
+      setStateList(JSON.parse(quizzes));
+    }
+  }, []);
+
+  const handleDeleteRequest = (title) => {
+    const newList = stateList.filter((quiz) => quiz.configs.title !== title);
+    setStateList(newList);
+    localStorage.setItem("quizzes", JSON.stringify(newList));
+  };
+
+  if (stateList.length < 1) {
+    return <Empty text="quizzes" />;
+  }
+
   return (
-    <ul>
-      {list.map((lesson) => {
-        <></>;
-      })}
-    </ul>
+    <div className="flex justify-center my-8">
+      <ul className="w-full max-w-5xl">
+        {stateList.map((quiz) => {
+          return (
+            <li
+              key={quiz.configs.title}
+              className="px-8 flex justify-between items-center pt-4 pb-2 border-b-2 border-b-gray-200"
+            >
+              <Link
+                to={`/${classroomName}/${classroomID}/${quiz.name}/${quiz.id}`}
+              >
+                <h2>{quiz.configs.title}</h2>
+              </Link>
+              <div className="flex gap-4 text-sm">
+                <button className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg">
+                  <EditIcon className="w-4 h-4" />
+                  <h4>Edit</h4>
+                </button>
+                <button
+                  className="flex items-center gap-2 border-2 border-[#FF5555] text-[#FF5555] px-4 py-2 rounded-lg"
+                  onClick={() => handleDeleteRequest(quiz.configs.title)}
+                >
+                  <DeleteIcon className="w-4 h-4" />
+                  <h4>Delete</h4>
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 
@@ -93,7 +138,7 @@ export const ClassroomList = ({ list, classroomName, classroomID, type }) => {
     setStateList(list);
   }, [list]);
 
-  if (stateList.length < 1) {
+  if (stateList.length < 1 && type !== "quizzes") {
     return <Empty text={type} />;
   }
 
