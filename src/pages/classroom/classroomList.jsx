@@ -78,20 +78,12 @@ const Lessons = ({ list, classroomName, classroomID, handleDelete }) => {
 
 const Quizzes = ({ list, classroomName, classroomID }) => {
   const [stateList, setStateList] = useState([]);
-  axios.get("https://brainup-api.mazenamir.com/api/quizes/teacher/get", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    },
-  }).then((res) => {
-    const quizzes = res.data.data;
-    setStateList(quizzes);
-  });
-  // console.log(stateList);
+
   useEffect(() => {
-    // const quizzes = localStorage.getItem("quizzes");
-    // if (quizzes) {
-    //   setStateList(JSON.parse(quizzes));
-    // }
+    const quizzes = localStorage.getItem("quizzes");
+    if (quizzes) {
+      setStateList(JSON.parse(quizzes));
+    }
   }, []);
 
   const handleDeleteRequest = (title) => {
@@ -108,16 +100,15 @@ const Quizzes = ({ list, classroomName, classroomID }) => {
     <div className="flex justify-center my-8">
       <ul className="w-full max-w-5xl">
         {stateList.map((quiz) => {
-          console.log(quiz);
           return (
             <li
-              key={quiz.title}
+              key={quiz.configs.title}
               className="px-8 flex justify-between items-center pt-4 pb-2 border-b-2 border-b-gray-200"
             >
               <Link
                 to={`/${classroomName}/${classroomID}/${quiz.name}/${quiz.id}`}
               >
-                <h2>{quiz.title}</h2>
+                <h2 className="text-lg font-semibold">{quiz.configs.title}</h2>
               </Link>
               <div className="flex gap-4 text-sm">
                 <button className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg">
@@ -126,7 +117,7 @@ const Quizzes = ({ list, classroomName, classroomID }) => {
                 </button>
                 <button
                   className="flex items-center gap-2 border-2 border-[#FF5555] text-[#FF5555] px-4 py-2 rounded-lg"
-                  onClick={() => handleDeleteRequest(quiz.title)}
+                  onClick={() => handleDeleteRequest(quiz.configs.title)}
                 >
                   <DeleteIcon className="w-4 h-4" />
                   <h4>Delete</h4>
