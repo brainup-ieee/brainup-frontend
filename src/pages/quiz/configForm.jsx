@@ -64,7 +64,9 @@ export const ConfigForm = () => {
     e.preventDefault();
     dispatch({ type: "SUBMIT_FORM" });
     const quizStorage = JSON.parse(localStorage.getItem("quiz"));
+    quizStorage.AI = false;
     quizStorage.configs = state;
+    quizStorage.questions = [];
     setQuiz(quizStorage);
     localStorage.setItem("quiz", JSON.stringify(quizStorage));
     navigate(`/${classroom}/${id}/quiz/model/create`);

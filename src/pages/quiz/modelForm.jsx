@@ -25,7 +25,6 @@ const helperFunction = (questions, choices) => {
 
 const reducer = (state, action) => {
   const { questionIndex, field, value } = action.payload;
-  console.log(questionIndex, field, value);
   switch (action.type) {
     case "SET_STATE":
       return action.payload;
@@ -60,11 +59,15 @@ export const ModelForm = () => {
   });
 
   useEffect(() => {
-    const newState = helperFunction(
-      quiz.configs.number_of_questions,
-      quiz.configs.number_of_choices
-    );
-    dispatch({ type: "SET_STATE", payload: [...newState] });
+    if (quiz.AI) {
+      dispatch({ type: "SET_STATE", payload: [...quiz.questions[0]] });
+    } else {
+      const newState = helperFunction(
+        quiz.configs.number_of_questions,
+        quiz.configs.number_of_choices
+      );
+      dispatch({ type: "SET_STATE", payload: [...newState] });
+    }
   }, [quiz]);
 
   if (number_of_questions.length < 1 || state.length < 1) {
@@ -95,10 +98,10 @@ export const ModelForm = () => {
     const quizData = {
       configs: quiz.configs,
       classroom_id: quiz.classroom_id,
-      questions: [...state],
+      questions: [[...state]],
     };
 
-    console.log(quizData);
+    // console.log(quizData);
 
     const data = await addQuiz.mutateAsync(url, header, quizData);
     console.log(data);
