@@ -9,6 +9,9 @@ const AddButton = ({ text, flag, id, classroomName }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
+    if (localStorage.getItem("quiz")) {
+      localStorage.removeItem("quiz");
+    }
     if (flag === "lessons") {
       navigate(`/${classroomName}/${id}/lesson/create`);
     } else {
