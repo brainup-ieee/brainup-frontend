@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Input } from "../../../components/Input";
 import { ButtonFull } from "../../../components/ButtonFull";
+import axios from "axios";
 
 const validateCode = (code) => {
   if (code.trim() === "") {
@@ -26,7 +27,6 @@ export const ConfrimEmailPage = () => {
       value: value,
       error: validateCode(value),
     }));
-
     if (validateCode(value) === "") {
       setEnableContinue(true);
     } else {
@@ -34,7 +34,21 @@ export const ConfrimEmailPage = () => {
     }
   };
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    // get code 
+    let code = state.value;
+    // send code to server
+    axios.post("https://brainup-api.mazenamir.com/api/auth/confirm-email/verify-code",{
+      code : code
+    }).then((res) => {
+      // if code is correct
+      if (res.data.status === "success") {
+        // navigate to dashboard page
+        navigate("/dashboard");
+      }
+    });
+    
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -53,7 +67,7 @@ export const ConfrimEmailPage = () => {
         <ButtonFull
           text="Confirm"
           enabled={enableContinue}
-          //   clickHandler={onContinue}
+          clickHandler={handleClick}
         />
       </div>
     </div>

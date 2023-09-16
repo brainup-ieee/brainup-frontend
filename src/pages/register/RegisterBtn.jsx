@@ -35,6 +35,7 @@ export const RegisterBtn = ({ enabled }) => {
         JSON.stringify({ ...register, step: 2 })
       );
     } else if (data.status === "success") {
+      localStorage.setItem("userToken", data.token);
       localStorage.setItem("isRegistered", true);
       localStorage.removeItem("userRegisterData");
       navigate("/email-confirm");
