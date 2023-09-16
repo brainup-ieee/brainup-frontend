@@ -13,7 +13,12 @@ export const MediaInput = ({ fileTypes, fileName, inputName, onChange }) => {
           {fileName ? fileName.name : "Select a file"}
         </span>
       </div>
-      <input type="file" name={inputName} className="hidden" onChange={onChange} />
+      <input
+        type="file"
+        name={inputName}
+        className="hidden"
+        onChange={onChange}
+      />
     </label>
   );
 };

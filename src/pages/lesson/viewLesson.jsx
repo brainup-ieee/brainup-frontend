@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGet } from "../../hooks/useFetch";
 import ReactPlayer from "react-player";
-import movie from "../../assets/movie.mp4";
 
 export const ViewLesson = () => {
   const { classroom, classroom_id, lesson, id } = useParams();
@@ -35,7 +34,9 @@ export const ViewLesson = () => {
         <h2>Loading...</h2>
       ) : (
         <ReactPlayer
-          url={movie}
+          url={
+            "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
+          }
           controls={true}
           volume={0.5}
         />

@@ -20,7 +20,6 @@ export const ConfrimEmailPage = () => {
   const [enableContinue, setEnableContinue] = useState(false);
   const navigate = useNavigate();
 
-
   useEffect(() => {}, []);
 
   const handleChange = (e) => {
@@ -38,19 +37,23 @@ export const ConfrimEmailPage = () => {
   };
 
   const handleClick = () => {
-    // get code 
+    // get code
     let code = state.value;
     // send code to server
-    axios.post("https://brainup-api.mazenamir.com/api/auth/confirm-email/verify-code",{
-      code : code
-    }).then((res) => {
-      // if code is correct
-      if (res.data.status === "success") {
-        // navigate to dashboard page
-        navigate("/"+res.data.user_type+"-dashboard");
-      }
-    });
-    
+    axios
+      .post(
+        "https://brainup-api.mazenamir.com/api/auth/confirm-email/verify-code",
+        {
+          code: code,
+        }
+      )
+      .then((res) => {
+        // if code is correct
+        if (res.data.status === "success") {
+          // navigate to dashboard page
+          navigate("/" + res.data.user_type + "-dashboard");
+        }
+      });
   };
 
   return (
