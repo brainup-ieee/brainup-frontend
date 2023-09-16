@@ -50,7 +50,9 @@ const Lessons = ({ list, classroomName, classroomID, handleDelete }) => {
               key={lesson.id}
               className="px-8 flex justify-between items-center pt-4 pb-2 border-b-2 border-b-gray-200"
             >
-              <Link to={`/${classroomName}/${classroomID}/lesson/${lesson.id}`}>
+              <Link
+                to={`/${classroomName}/${classroomID}/${lesson.name}/${lesson.id}`}
+              >
                 <h2 className="text-lg font-semibold">{lesson.name}</h2>
               </Link>
               <div className="flex gap-4 text-sm">

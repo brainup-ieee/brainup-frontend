@@ -65,7 +65,7 @@ export const RouterComponent = () => {
           />
           <Route path="teacher/classroom/:id" element={<Classroom />} />
           <Route
-            path=":classroom/:classroom_id/lesson/:id"
+            path=":classroom/:classroom_id/:lesson/:id"
             element={<ViewLesson />}
           />
           <Route
