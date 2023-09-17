@@ -103,7 +103,7 @@ export const ModelForm = () => {
       questions: [[...state]],
     };
 
-    console.log(quizData);
+    // console.log(quizData);
     const quizzes = localStorage.getItem("quizzes");
     if (quizzes) {
       const parsedQuizzes = JSON.parse(quizzes);

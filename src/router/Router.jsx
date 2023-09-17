@@ -32,6 +32,7 @@ import { AuthAlertContextProvider } from "../contexts/authAlert";
 import { Classroom } from "../pages/classroom";
 import { ProcessSuccess } from "../pages/varify/ProcessSuccess";
 import { CreateModel } from "../pages/quiz/createModel";
+import { ClassroomRequests } from "../pages/classroom/classroomRequests";
 
 const Layout = ({ children }) => {
   return (
@@ -64,6 +65,10 @@ export const RouterComponent = () => {
             element={<CreateModel />}
           />
           <Route path="teacher/classroom/:id" element={<Classroom />} />
+          <Route
+            path=":classroom/requests/:id"
+            element={<ClassroomRequests />}
+          />
           <Route
             path=":classroom/:classroom_id/:lesson/:id"
             element={<ViewLesson />}
